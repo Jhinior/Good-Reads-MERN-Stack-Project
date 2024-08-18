@@ -3,6 +3,8 @@ const httpStatusText = require("../utils/httpStatusText")
 const Book = require("../models/book.model")
 const appError = require("../utils/appError")
 const idGenerator = require("../utils/idGenerator")
+const Category = require('../models/category.model')
+const Author = require('../models/author.model')
 
 
 const getAllBooks = wrapAsync(async (req,res)=>{
@@ -13,6 +15,16 @@ const getAllBooks = wrapAsync(async (req,res)=>{
 
     res.json({ status: httpStatusText.SUCCESS, data: {books}})
  })
+
+
+ // const viewAllBooks = async (req, res, next) => {
+//   try {
+//     const books = await Book.find(); // Fetches all books
+//     res.json({ status: 'Success', data: { books } });
+//   } catch (error) {
+//     res.status(500).json({ status: 'Error', message: error.message });
+//   }
+// };
 
 const addBook = wrapAsync(async (req,res,next)=>{
     let {name, category, author, image,} = req.body
@@ -67,11 +79,36 @@ const deleteBook = wrapAsync(async (req,res,next)=>{
     res.status(200).json({status: httpStatusText.SUCCESS, data: null});
 })
 
+
+const getBooksByCategory = async (req, res) => {
+    try {
+      const { categoryId } = req.params;
+      const category = await Category.findById(categoryId);
+      const books = await Book.find({ 'category': category });
+      res.json({ status: 'Success', data: { books } });
+    } catch (error) {
+      res.status(500).json({ status: 'Error', message: error.message });
+    }
+  };
+
+  const getBooksByAuthor = async (req, res, next) => {
+    try {
+      const { authorId } = req.params;
+      const author = await Author.findById(authorId);
+      const books = await Book.find({ 'author': author });
+      res.json({ status: 'Success', data: { books } });
+    } catch (error) {
+      res.status(500).json({ status: 'Error', message: error.message });
+    }
+  };
+
  module.exports = {
     getAllBooks,
     addBook,
     editBook,
-    deleteBook
+    deleteBook,
+    getBooksByCategory,
+    getBooksByAuthor,
 }
 
 

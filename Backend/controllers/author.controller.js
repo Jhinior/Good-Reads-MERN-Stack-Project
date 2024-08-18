@@ -54,10 +54,31 @@ const deleteAuthor = wrapAsync(async (req,res,next)=>{
     res.status(200).json({status: httpStatusText.SUCCESS, data: null});
 })
 
+
+const getAuthorByName = async (req, res, next) => {
+    const { name } = req.params;
+    try {
+      // Decode and split the name from the URL
+      const decodedName = decodeURIComponent(name);
+      const [firstName, lastName] = decodedName.split(' ');
+      
+      // Find author by first and last name
+      const author = await Author.findOne({ firstName: new RegExp(firstName, 'i') });
+      if (!author) {
+        return res.status(404).json({ status: "Fail", message: "Author not found" });
+      }
+  
+      return res.json({ status: "Success", data: { author } });
+    } catch (error) {
+      return res.status(500).json({ status: "Error", message: "Server error" });
+    }
+  };
+
 module.exports={
     getAllAuthors,
     getOneAuthor,
     addAuthor,
     editAuthor,
-    deleteAuthor
+    deleteAuthor,
+    getAuthorByName
 }

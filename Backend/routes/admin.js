@@ -41,5 +41,12 @@ router.patch("/category/:id/edit" , isValidCategReq.addCategoryValidation() , ca
 
 router.delete("/category/:id/delete" , categoryController.deleteCategory)
 
+router.get('/categories/name/:name', categoryController.getCategoryByName)
+
+router.get('/books/category/:categoryId', bookController.getBooksByCategory)
+
+router.get('/author/name/:name', authorController.getAuthorByName)
+
+router.get('/books/author/:authorId', bookController.getBooksByAuthor)
 
 module.exports = router;

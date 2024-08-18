@@ -64,9 +64,29 @@ const deleteCategory = wrapAsync(async(req , res , next)=>{
   }
  
 })
+
+
+const getCategoryByName = async (req, res, next) => {
+  const { name } = req.params;
+
+  try {
+    // Use case-insensitive matching to find the category by name
+    const category = await Category.findOne({ name: new RegExp(name, 'i') });
+
+    if (!category) {
+      return res.status(404).json({ status: "Fail", message: "Category not found" });
+    }
+
+    return res.json({ status: "Success", data: { category } });
+  } catch (error) {
+    return res.status(500).json({ status: "Error", message: "Server error" });
+  }
+};
+
 module.exports = {
     getCategory,
     addCategory,
     updateCategory,
     deleteCategory,
+    getCategoryByName,
 }
