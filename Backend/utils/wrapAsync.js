@@ -5,4 +5,4 @@ function wrapAsync(fn) {
 }
 
 
-module.exports = wrapAsync
+module.exports = wrapAsync;

@@ -1,23 +1,29 @@
-const express = require("express")
+const express = require("express");
 const mongoose = require("mongoose");
-require('dotenv').config();
-const {Schema} = mongoose
-const AppError = require("./utils/appError")
-const adminRoutes = require("./routes/admin")
-const httpStatusText = require("./utils/httpStatusText")
-const url= process.env.URL
+const httpStatusText = require("./utils/httpStatusText");
+const adminRoutes = require("./routes/admin");
+require("dotenv").config();
+const url = process.env.URL;
+const app = express();
 
-mongoose.connect(url)
-.then(()=>{
-    console.log("Mongo connected successfuly")
-})
-.catch((e)=>{
-    console.log(e)
-    console.log("Failed to connect to Mongo")
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
-const app = express()
+app.listen(3000, () => {
+  console.log("Server is listening on port 3000");
+  mongoose
+    .connect(url)
+    .then(() => {
+      console.log("Mongo connected successfuly");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+});
+
+app.use("/admin", adminRoutes);
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -33,6 +39,4 @@ app.use((error, req, res, next) => {
     res.status(error.status || 500).json({status: error.httpStatusText || httpStatusText.ERROR, message: error.message, code: error.status || 500, data: null});
 })
 
-app.listen(3000,()=>{
-    console.log("Server is listening on port 3000")
-})
+

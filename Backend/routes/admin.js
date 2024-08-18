@@ -3,6 +3,8 @@ const router = express.Router()
 const adminController = require("../controllers/admin.controller")
 const bookController = require("../controllers/book.controller")
 const authorController = require("../controllers/author.controller")
+const categoryController = require("../controllers/category.controller")
+const isValidCategReq = require("../middlewares/isValiedCategRequest")
 const Category = require("../models/category.model")
 
 
@@ -31,8 +33,13 @@ router.patch("/author/:id/edit",authorController.editAuthor)
 
 router.delete("/author/:id/delete",authorController.deleteAuthor)
 
+router.get("/category", categoryController.getCategory);
+
+router.post( "/category/add", isValidCategReq.addCategoryValidation() , categoryController.addCategory);
+
+router.patch("/category/:id/edit" , isValidCategReq.addCategoryValidation() , categoryController.updateCategory)
+
+router.delete("/category/:id/delete" , categoryController.deleteCategory)
 
 
-
-
-module.exports = router
+module.exports = router;
