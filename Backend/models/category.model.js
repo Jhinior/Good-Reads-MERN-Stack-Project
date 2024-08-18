@@ -15,6 +15,7 @@ const categorySchema = new Schema({
       "Title must only contain alphabetic characters and spaces.",
     ],
   },
+  
 });
 
 const Category = mongoose.model("Category", categorySchema);
