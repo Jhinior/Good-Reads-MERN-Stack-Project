@@ -4,15 +4,16 @@ const {Schema} = mongoose
 const categorySchema = new Schema({
     id:{
         type: Number,
+        unique:true
     },
     name : {
         type: String,
-        required : true,
+        required : true
     },
-    books: [{
-        type: Schema.Types.ObjectId,
-        ref: "Book",
-    }]
+    description: {
+        type: String,
+        required: true
+    }
 })
 
 const Category = mongoose.model("Category",categorySchema)

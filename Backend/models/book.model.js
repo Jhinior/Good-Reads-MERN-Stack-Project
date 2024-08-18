@@ -4,11 +4,14 @@ const {Schema} = mongoose
 const bookSchema = new Schema({
     id:{
         type: Number,
+        required:true,
+        unique: true
     },
     name : {
         type: String,
         required : true,
-        unique : true
+        unique : true,
+        match : /^[A-Za-z\s.-]+$/
     },
     category : {
         type : Schema.Types.ObjectId,
@@ -21,9 +24,18 @@ const bookSchema = new Schema({
         required: true
     },
     image:{
-        type:String
-    }
+        type:String,
+        default:"N/A"
+    } 
 })
+
+bookSchema.pre("save", function (next) {
+    this.name = this.name
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+    next();
+});
 
 const Book = mongoose.model("Book",bookSchema)
 
