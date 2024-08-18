@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const wrapAsync = require("../utils/wraper");
+const wrapAsync = require("../utils/wrapAsync");
 const Category = require("../models/category.model");
 const appError = require("../utils/appError");
 const httpStatusText = require("../utils/httpStatusText");
@@ -31,8 +31,8 @@ const addCategory = wrapAsync(async (req, res, next) => {
     });
 
     try{
-        const ifSaved = await category.save();
-        res.status(201).json({ status: httpStatusText.SUCCESS, data:{ifSaved} });
+        await category.save();
+        res.status(201).json({ status: httpStatusText.SUCCESS, data:{category} });
     }catch(err){
         return next(new appError(err.message, 400, httpStatusText.FAIL))
     }
