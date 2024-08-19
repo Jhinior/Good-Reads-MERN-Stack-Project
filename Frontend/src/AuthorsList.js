@@ -1,0 +1,64 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function AuthorsPage() {
+  const [authors, setAuthors] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAuthors = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/admin/author');
+        setAuthors(response.data);
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+        setError('There was an error fetching the authors.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAuthors();
+  }, []);
+
+  return (
+    <div className="container">
+      <h1 className="my-4">Authors</h1>
+      {loading ? (
+        <p>Loading authors...</p>
+      ) : error ? (
+        <p className="text-danger">{error}</p>
+      ) : (
+        <div className="row">
+          {authors.length > 0 ? (
+            authors.map(author => (
+              <div className="col-md-4 mb-4" key={author.id}>
+                <div className="card mb-4 shadow-sm">
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      <Link to={`/author/${encodeURIComponent(author.firstName + ' ' + author.lastName)}`} className="text-decoration-none">
+                        {author.firstName} {author.lastName}
+                      </Link>
+                    </h5>
+                    {author.dob && (
+                      <p className="card-text">
+                        Born: {new Date(author.dob).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No authors available.</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default AuthorsPage;

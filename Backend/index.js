@@ -7,6 +7,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const url = process.env.URL;
 const app = express();
+app.use('/uploads', express.static('uploads'));
 
 app.use(cookieParser());
 app.use(cors({
