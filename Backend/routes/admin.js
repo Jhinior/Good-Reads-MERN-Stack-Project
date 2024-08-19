@@ -6,6 +6,9 @@ const authorController = require("../controllers/author.controller")
 const categoryController = require("../controllers/category.controller")
 const isValidCategReq = require("../middlewares/isValiedCategRequest")
 const Category = require("../models/category.model")
+const verifyToken = require("../middlewares/verifytoken");
+const allowedTo = require("../middlewares/allowedTo");
+const userRoles = require("../utils/users.roles");
 
 
 
@@ -13,11 +16,11 @@ router.post("/register",adminController.createAdmin)
 
 router.post("/login",adminController.loginAdmin)
 
-router.patch("/:username/edit",adminController.editAdmin)
+router.patch("/:username/edit",verifyToken,adminController.editAdmin)
 
 router.get("/book",bookController.getAllBooks)
 
-router.post("/book/add",bookController.addBook)
+router.post("/book/add",verifyToken,allowedTo(userRoles.ADMIN),bookController.addBook)
 
 router.patch("/book/:id/edit",bookController.editBook)
 

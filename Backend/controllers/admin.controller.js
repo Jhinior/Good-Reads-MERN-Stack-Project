@@ -3,6 +3,7 @@ const httpStatusText = require("../utils/httpStatusText")
 const Admin = require("../models/admin.model")
 const bcrypt = require("bcrypt")
 const appError = require("../utils/appError")
+const generateToken = require("../utils/generateJWT");
 
 const createAdmin= wrapAsync(async (req,res,next)=>{
     const {username, password} = req.body
@@ -33,7 +34,18 @@ const loginAdmin= wrapAsync(async (req,res,next)=>{
     if(!isPassword){
         return next(new appError("Invalid username or password",404))
     }
+    const token = await generateToken({
+        id: admin._id,
+        username: admin.username,
+        role: admin.role,
+    })
     console.log("You are logged in")
+    res.cookie('token', token, {    
+        httpOnly: true, 
+        secure: false, 
+        sameSite: 'Lax', 
+        maxAge: 180000
+    });
     res.status(200).json({status:httpStatusText.SUCCESS,data:{admin}})
 })
 
