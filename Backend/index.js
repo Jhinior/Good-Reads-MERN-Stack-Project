@@ -3,15 +3,22 @@ const mongoose = require("mongoose");
 const httpStatusText = require("./utils/httpStatusText");
 const adminRoutes = require("./routes/admin");
 require("dotenv").config();
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const url = process.env.URL;
 const app = express();
+app.use('/uploads', express.static('uploads'));
 
+app.use(cookieParser());
+app.use(cors({
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.listen(3000, () => {
-  console.log("Server is listening on port 3000");
+app.listen(5000, () => {
+  console.log("Server is listening on port 5000");
   mongoose
     .connect(url)
     .then(() => {
@@ -21,12 +28,6 @@ app.listen(3000, () => {
       console.log(err.message);
     });
 });
-
-app.use("/admin", adminRoutes);
-
-
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
 
 app.use("/admin",adminRoutes)
 

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const userRole = require("../utils/users.roles");
 const {Schema} = mongoose
 
 const adminSchema = new Schema({
@@ -11,6 +12,10 @@ const adminSchema = new Schema({
     password : {
         type : String,
         required : true
+    },
+    role: {
+        type: String,
+        default: userRole.ADMIN,
     }
 })
 
