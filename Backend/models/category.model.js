@@ -11,7 +11,7 @@ const categorySchema = new Schema({
     required: true,
     unique: true,
     match: [
-      /^[A-Za-z\s]+$/,
+      /^[A-Za-z\s.-]+$/,
       "Title must only contain alphabetic characters and spaces.",
     ],
   },

@@ -7,8 +7,6 @@ const categoryController = require("../controllers/category.controller")
 const isValidCategReq = require("../middlewares/isValiedCategRequest")
 const Category = require("../models/category.model")
 
-
-
 router.post("/register",adminController.createAdmin)
 
 router.post("/login",adminController.loginAdmin)
