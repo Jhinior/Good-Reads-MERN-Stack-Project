@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const userRole = require("../utils/users.roles");
+const validator = require("validator");
 const {Schema} = mongoose
 
 const userSchema = new Schema({
@@ -17,7 +18,8 @@ const userSchema = new Schema({
         type : String,
         required : true,
         unique: true,
-        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        validate: [validator.isEmail, "please enter valid email address"],
     },
     password :{
         type: String,

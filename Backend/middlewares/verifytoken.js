@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
   }
   try {
     const currentUser = jwt.verify(token, process.env.jwtTokenKey);
-    console.log(currentUser);
+    console.log(currentUser); 
     req.currentUser = currentUser;
     next();
   } catch (err) {
