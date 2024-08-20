@@ -31,6 +31,12 @@ app.listen(5000, () => {
     });
 });
 
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow the frontend domain
+  credentials: true, // Allow cookies to be sent
+}));
+
 app.use("/admin",adminRoutes)
 app.use("/user" , userRoutes);
 

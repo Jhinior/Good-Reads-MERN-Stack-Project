@@ -45,10 +45,10 @@ const updateCategory = wrapAsync(async (req , res , next)=>{
       return next(new appError (errors.array(), 400, httpStatusText.FAIL));
     }
     const categoryId = +req.params.id;
-    const newCategoryName =  wordTransform(req.body.name); 
+    const newCategoryName =  wordTransform(req.body.name);
     try{
       const updatedCategory = await Category.findOneAndUpdate({id:categoryId} ,{name: newCategoryName } , {new: true , runValidators: true});
-      res.status(200).json({status: httpStatusText.SUCCESS , data:{updatedCategory}});
+      res.status(200).json({status: httpStatusText.SUCCESS , data:{updatedCategory}});   
     }catch(err){
       return next(new appError(err.message, 400, httpStatusText.FAIL))
     }    

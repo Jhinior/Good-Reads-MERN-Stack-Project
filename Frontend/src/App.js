@@ -5,6 +5,8 @@ import CategoryList from './CategoryList';  // Ensure this path is correct
 import CategoryDetail from './CategoryPage';
 import AuthorsList from './AuthorsList';  // New import
 import AuthorDetailPage from './AuthorDetailPage';
+import Admin from './Admin';
+import AdminCategories from './AdminCategories';
 
 function App() {
   
@@ -17,6 +19,8 @@ function App() {
           <Route path="/books" element={<BooksList />} />
           <Route path="/author" element={<AuthorsList/>} />
           <Route path="/author/:name" element={<AuthorDetailPage/>} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
         </Routes>
       </div>
     </Router>
