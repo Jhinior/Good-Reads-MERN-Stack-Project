@@ -18,6 +18,7 @@ const userSchema = new Schema({
         type : String,
         required : true,
         unique: true,
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         validate: [validator.isEmail, "please enter valid email address"],
     },
     password :{
@@ -25,11 +26,12 @@ const userSchema = new Schema({
         require: true
     },
     image:{
-        type:String
+        type:String,
+        default:"../uploads/batman"
     },
     read:{
-        type:[
-            {Book:{
+        type:[{
+            book:{
                 type: Schema.Types.ObjectId,
                 ref: 'Book'
             },
@@ -41,12 +43,8 @@ const userSchema = new Schema({
                 type:String,
                 enum: ["READ", "READING", "WANT TO READ"],
                 default: "READ",
-            },
-            review:{
-                type:String
             }
-            }
-        ]
+        }]
     },
     
     role: {
@@ -54,6 +52,13 @@ const userSchema = new Schema({
         default: userRole.USER
     }
 })
+
+userSchema.pre("save", function (next) {
+    this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1).toLowerCase()
+    this.lastName = this.lastName.charAt(0).toUpperCase() + this.lastName.slice(1).toLowerCase()
+    next();
+});
+
 
 const User = mongoose.model("User",userSchema)
 

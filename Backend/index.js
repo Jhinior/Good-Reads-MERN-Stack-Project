@@ -10,6 +10,8 @@ const path = require("path")
 const url = process.env.URL;
 const app = express();
 
+
+
 app.use('/uploads', express.static(path.join(__dirname,'uploads')));
 app.use(cookieParser());
 app.use(cors({
@@ -38,7 +40,8 @@ app.use(cors({
 }));
 
 app.use("/admin",adminRoutes)
-app.use("/user" , userRoutes);
+app.use("/user",userRoutes)
+
 
 app.all('*', (req, res)=> {
     return res.status(404).json({ status: httpStatusText.ERROR, message: 'Page Not Found'})

@@ -31,14 +31,22 @@ const bookSchema = new Schema({
         type: Number,
         default: 0
     },
-    // reviews: {
-    //     type: [{
-    //         user:{
-    //             type : Schema.Types.ObjectId,
-    //             ref: "User"
-    //         }, 
-    //     }]
-    // }
+    reviews: {
+        type: [{
+            name:{
+                type : String
+            },
+            email:{
+                type: String
+            },
+            review:{
+                type:String
+            },
+            date:{
+                type:String
+            }
+        }]
+    }
 
 })
 
