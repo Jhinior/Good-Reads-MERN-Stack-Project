@@ -34,7 +34,7 @@ const fileFilter = (req,file,cb)=>{
 const upload = multer({storage:diskStorage,
     fileFilter
 })
-
+ 
 router.post("/register",adminController.createAdmin)
 
 router.post("/login",adminController.loginAdmin)

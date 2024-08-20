@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { type } = require("os");
 const {Schema} = mongoose
 
 const bookSchema = new Schema({
@@ -25,7 +26,20 @@ const bookSchema = new Schema({
     },
     image:{
         type:String,
-    } 
+    },
+    rating: {
+        type: Number,
+        default: 0
+    },
+    // reviews: {
+    //     type: [{
+    //         user:{
+    //             type : Schema.Types.ObjectId,
+    //             ref: "User"
+    //         }, 
+    //     }]
+    // }
+
 })
 
 bookSchema.pre("save", function (next) {

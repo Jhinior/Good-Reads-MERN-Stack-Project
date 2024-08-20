@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const httpStatusText = require("./utils/httpStatusText");
 const adminRoutes = require("./routes/admin");
+const userRoutes = require("./routes/user");
 require("dotenv").config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -31,6 +32,7 @@ app.listen(5000, () => {
 });
 
 app.use("/admin",adminRoutes)
+app.use("/user" , userRoutes);
 
 app.all('*', (req, res)=> {
     return res.status(404).json({ status: httpStatusText.ERROR, message: 'Page Not Found'})
