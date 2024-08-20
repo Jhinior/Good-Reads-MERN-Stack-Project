@@ -1,9 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const isValidCategReq = require("../middlewares/isValiedCategRequest")
 const verifyToken = require("../middlewares/verifytoken");
-const allowedTo = require("../middlewares/allowedTo");
-const userRoles = require("../utils/users.roles");
-const multer = require("multer")
-const appError = require("../utils/appError")
+const userController = require("../controllers/user.controller")
+const upload = require("../middlewares/imageUpLoader")
 
+
+
+
+router.post("/register",upload.single("image"),userController.createUser)
+router.get("/show",verifyToken,userController.getUser)
+
+module.exports= router

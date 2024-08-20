@@ -46,7 +46,7 @@ const loginAdmin= wrapAsync(async (req,res,next)=>{
         httpOnly: true, 
         secure: false, 
         sameSite: 'Lax', 
-        maxAge: 180000
+        maxAge: 86400000
     });
     res.status(200).json({status:httpStatusText.SUCCESS,data:{admin}})
 })
