@@ -6,10 +6,12 @@ const userSchema = new Schema({
     firstName : {
         type: String,
         required : true,
+        match : /^[A-Za-z\s.-]+$/
     },
     lastName : {
         type: String,
         required : true,
+        match : /^[A-Za-z\s.-]+$/
     },
     email : {
         type : String,
@@ -20,9 +22,31 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
-    photo:{
+    image:{
         type:String
     },
+    read:{
+        type:[
+            {Book:{
+                type: Schema.Types.ObjectId,
+                ref: 'Book'
+            },
+            rating:{
+                type:Number,
+                default:0
+            },
+            status:{
+                type:String,
+                enum: ["READ", "READING", "WANT TO READ"],
+                default: "READ",
+            },
+            review:{
+                type:String
+            }
+            }
+        ]
+    },
+    
     role: {
         type: String,
         default: userRole.USER

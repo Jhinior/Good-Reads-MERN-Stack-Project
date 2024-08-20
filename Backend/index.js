@@ -5,10 +5,11 @@ const adminRoutes = require("./routes/admin");
 require("dotenv").config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require("path")
 const url = process.env.URL;
 const app = express();
-app.use('/uploads', express.static('uploads'));
 
+app.use('/uploads', express.static(path.join(__dirname,'uploads')));
 app.use(cookieParser());
 app.use(cors({
   credentials: true

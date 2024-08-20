@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt")
 const appError = require("../utils/appError")
 const generateToken = require("../utils/generateJWT");
 
+
+
 const createAdmin= wrapAsync(async (req,res,next)=>{
     const {username, password} = req.body
     const allAdmin = await Admin.find()

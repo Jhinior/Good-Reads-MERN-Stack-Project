@@ -16,16 +16,6 @@ const getAllBooks = wrapAsync(async (req,res)=>{
     res.json({ status: httpStatusText.SUCCESS, data: {books}})
  })
 
-
- // const viewAllBooks = async (req, res, next) => {
-//   try {
-//     const books = await Book.find(); // Fetches all books
-//     res.json({ status: 'Success', data: { books } });
-//   } catch (error) {
-//     res.status(500).json({ status: 'Error', message: error.message });
-//   }
-// };
-
 const addBook = wrapAsync(async (req,res,next)=>{
     let {name, category, author, image,} = req.body
     if (!name || !category || !author ) {

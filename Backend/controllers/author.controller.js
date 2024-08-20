@@ -17,7 +17,9 @@ const getOneAuthor= wrapAsync(async (req,res,next)=>{
 })
 
 const addAuthor= wrapAsync(async (req,res,next)=>{
-    const {firstName, lastName, dob, photo} = req.body
+    const {firstName, lastName, dob} = req.body
+    
+    console.log(req.file)
     if (!firstName || !lastName ) {
         return next(new appError('Please provide all the required fields', 400));
     }
@@ -27,8 +29,9 @@ const addAuthor= wrapAsync(async (req,res,next)=>{
         firstName,
         lastName,
         dob,
-        photo
+        image:req.file.filename
     })
+    console.log(author)
     await author.save()
     res.status(201).json({status: httpStatusText.SUCCESS, data: {author}})
 })

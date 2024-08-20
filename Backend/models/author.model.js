@@ -29,12 +29,12 @@ const authorSchema = new Schema({
     firstName : {
         type: String,
         required : true,
-        match : /^[A-Za-z\s.]+$/
+        match : /^[A-Za-z\s.-]+$/
     },
     lastName : {
         type: String,
         required : true,
-        match : /^[A-Za-z\s.]+$/
+        match : /^[A-Za-z\s.-]+$/
     },
     dob : {
         type : String,
@@ -44,9 +44,9 @@ const authorSchema = new Schema({
             message: (props) => `${props.value} is not a valid date! Ensure the date is in the format dd/mm/yyyy and respects month-day limits.`
         }
     },
-    photo:{
+    image:{
         type:String,
-        default: "N/A"
+        default: "../uploads/cat"
     }
 })
 

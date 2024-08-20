@@ -9,6 +9,31 @@ const Category = require("../models/category.model")
 const verifyToken = require("../middlewares/verifytoken");
 const allowedTo = require("../middlewares/allowedTo");
 const userRoles = require("../utils/users.roles");
+const multer = require("multer")
+const appError = require("../utils/appError")
+
+const diskStorage = multer.diskStorage({
+    destination: function (req,file,cb){
+        console.log("file",file)
+        cb(null,"./uploads")
+    },
+    filename: function (req,file,cb){
+        const ext = file.mimetype.split("/")[1]
+        const fileName = `image-${Date.now()}.${ext}`
+        cb(null,fileName)
+    }
+})
+const fileFilter = (req,file,cb)=>{
+    const imageType = file.mimetype.split("/")[0]
+    if(imageType == "image"){
+        cb(null,true)
+    }else{
+        cb(new appError("File must be an image",400),false)
+    }
+}
+const upload = multer({storage:diskStorage,
+    fileFilter
+})
 
 router.post("/register",adminController.createAdmin)
 
@@ -18,9 +43,9 @@ router.patch("/:username/edit",verifyToken,adminController.editAdmin)
 
 router.get("/book",bookController.getAllBooks)
 
-router.post("/book/add",verifyToken,allowedTo(userRoles.ADMIN),bookController.addBook)
+router.post("/book/add",verifyToken,upload.single("image"),allowedTo(userRoles.ADMIN),bookController.addBook)
 
-router.patch("/book/:id/edit",bookController.editBook)
+router.patch("/book/:id/edit",verifyToken,upload.single("image"),bookController.editBook)
 
 router.delete("/book/:id/delete",bookController.deleteBook)
  
@@ -28,9 +53,9 @@ router.get("/author",authorController.getAllAuthors)
 
 router.get("/author/:id",authorController.getOneAuthor)
 
-router.post("/author/add",authorController.addAuthor)
+router.post("/author/add",verifyToken,upload.single("image"),authorController.addAuthor)
 
-router.patch("/author/:id/edit",authorController.editAuthor)
+router.patch("/author/:id/edit",verifyToken,upload.single("image"),authorController.editAuthor)
 
 router.delete("/author/:id/delete",authorController.deleteAuthor)
 
