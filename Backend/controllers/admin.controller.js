@@ -30,7 +30,7 @@ const loginAdmin= wrapAsync(async (req,res,next)=>{
     const {username, password} = req.body
     const admin = await Admin.findOne({username: username.toLowerCase()})
     if(!admin){
-        return next(new appError("Invalid username or password",404))
+        return next(new appError("Invalid username or password",404))    
     }
     const isPassword = await bcrypt.compare(password,admin.password)
     if(!isPassword){

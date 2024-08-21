@@ -58,6 +58,7 @@ const deleteCategory = wrapAsync(async(req , res , next)=>{
   const categoryId = +req.params.id;
   try{
      const ifDeleted = await Category.findOneAndDelete({id: categoryId});
+     
      res.status(200).json({status: httpStatusText.SUCCESS , data:{ifDeleted}});
   }catch(err){
       return next(new appError(err.message, 400, httpStatusText.FAIL))

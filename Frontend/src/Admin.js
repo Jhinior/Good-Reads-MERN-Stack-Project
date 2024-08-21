@@ -16,6 +16,8 @@ const LoginAdmin = () => {
         username,
         password,
       });
+      
+      
       if (response.data.status === 'success') {
         console.log('You are logged in');
         navigate('/admin/categories');      
