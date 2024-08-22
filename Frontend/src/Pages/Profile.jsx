@@ -187,6 +187,22 @@ const Profile = ({ profile, profileBooks, setProfileBooks, handleDeleteBook }) =
       });
   };
 
+  const handleAddToWantToRead = (book) => {
+    setWantToReadBooks((prevBooks) => [...prevBooks, book]);
+  };
+
+  const handleAddToCurrentReading = (book) => {
+    setCurrentReadingBooks((prevBooks) => [...prevBooks, book]);
+  };
+
+  const handleRemoveFromWantToRead = (bookId) => {
+    setWantToReadBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+  };
+
+  const handleRemoveFromCurrentReading = (bookId) => {
+    setCurrentReadingBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+  };
+
   const handleAddRating = (bookId, rating) => {
     setLoading(true);
     axios.post(`https://freetestapi.com/api/v1/books/${bookId}/ratings`, { rating })
@@ -270,6 +286,68 @@ const Profile = ({ profile, profileBooks, setProfileBooks, handleDeleteBook }) =
               </button>
             </div>
           ))}
+        </div>
+      </div>
+      <div className="side-elements">
+        <div className="side-elements-content">
+          <a href="#popup1">
+            <p>Want to Read</p>
+          </a>
+          <a href="#popup2">
+            <p>Current Reading</p>
+          </a>
+        </div>
+      </div>
+
+      {/* Want to Read Popup */}
+      <div id="popup1" className="popup">
+        <div className="popup-content">
+          <h2>Want to Read</h2>
+          {wantToReadBooks.length === 0 ? (
+            <p>No books in Want to Read list.</p>
+          ) : (
+            wantToReadBooks.map((book) => (
+              <div key={book.id} className="book-card-popup">
+                <h2>{book.title}</h2>
+                <p>Author: {book.author}</p>
+                <button
+                  onClick={() => handleRemoveFromWantToRead(book.id)}
+                  className="remove-btn"
+                >
+                  <RiDeleteBin6Line /> Remove
+                </button>
+              </div>
+            ))
+          )}
+          <a href="#" className="close-popup">
+            Close
+          </a>
+        </div>
+      </div>
+
+      {/* Current Reading Popup */}
+      <div id="popup2" className="popup">
+        <div className="popup-content">
+          <h2>Current Reading</h2>
+          {currentReadingBooks.length === 0 ? (
+            <p>No books in Current Reading list.</p>
+          ) : (
+            currentReadingBooks.map((book) => (
+              <div key={book.id} className="book-card-popup">
+                <h2>{book.title}</h2>
+                <p>Author: {book.author}</p>
+                <button
+                  onClick={() => handleRemoveFromCurrentReading(book.id)}
+                  className="remove-btn"
+                >
+                  <RiDeleteBin6Line /> Remove
+                </button>
+              </div>
+            ))
+          )}
+          <a href="#" className="close-popup">
+            Close
+          </a>
         </div>
       </div>
     </>
