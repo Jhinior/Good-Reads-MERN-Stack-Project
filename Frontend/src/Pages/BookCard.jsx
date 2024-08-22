@@ -218,7 +218,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import './BookCard.css';
+import '../Styles/BookCard.css';
 
 // StarRating Component for display only
 function StarRating({ rating }) {

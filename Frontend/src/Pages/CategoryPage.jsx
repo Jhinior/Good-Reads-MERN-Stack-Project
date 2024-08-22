@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CategoryPage.css';
+import '../Styles/CategoryPage.css';
 
 function CategoryPage() {
   const { id: categoryName } = useParams(); // Get the category name from URL

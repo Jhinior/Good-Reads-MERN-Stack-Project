@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './BookList.css';
+import '../Styles/BookList.css';
 import Navbar from './Navbar';
 
 function BooksList() {

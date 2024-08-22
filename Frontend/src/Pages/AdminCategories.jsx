@@ -147,7 +147,7 @@
 // export default Categories;
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './AdminCategories.css';
+import '../Styles/AdminCategories.css';
 import EditCategoryModal from './EditCategoryModal';
 import { Link } from 'react-router-dom';
 

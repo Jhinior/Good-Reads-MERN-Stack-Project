@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './AdminBooks.css' // Make sure this CSS file exists and is styled as needed
+import '../Styles/AdminBooks.css' // Make sure this CSS file exists and is styled as needed
 // import EditBookModal from './EditBookModal'; // Create this component similarly to EditCategoryModal
 import { Link } from 'react-router-dom';
 

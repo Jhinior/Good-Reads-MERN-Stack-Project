@@ -105,19 +105,19 @@
 // App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import BookList from './BookList';
-import BookCard from './BookCard';
-import Login from './Login';
-import Navbar from './Navbar';
-import Profile from './Profile';
-import SearchResults from './Search';
-import CategoryList from './CategoryList';  // Ensure this path is correct
-import CategoryDetail from './CategoryPage';
-import AuthorsList from './AuthorsList';  // New import
-import AuthorDetailPage from './AuthorDetailPage';
-import Admin from './Admin';
-import AdminCategories from './AdminCategories';
-import AdminBooks from './AdminBooks';
+import BookList from './Pages/BookList';
+import BookCard from './Pages/BookCard';
+import Login from './Pages/Login';
+import Navbar from './Pages/Navbar';
+import Profile from './Pages/Profile';
+import SearchResults from './Pages/Search';
+import CategoryList from './Pages/CategoryList';  // Ensure this path is correct
+import CategoryDetail from './Pages/CategoryPage';
+import AuthorsList from './Pages/AuthorsList';  // New import
+import AuthorDetailPage from './Pages/AuthorDetailPage';
+import Admin from './Pages/Admin';
+import AdminCategories from './Pages/AdminCategories';
+import AdminBooks from './Pages/AdminBooks';
 
 
 

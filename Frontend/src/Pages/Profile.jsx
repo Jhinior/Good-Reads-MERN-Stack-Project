@@ -120,7 +120,7 @@ import React, { useState } from "react";
 import { RiDeleteBin6Line, RiCheckboxCircleLine } from "react-icons/ri";
 import axios from 'axios';
 import "react-perfect-scrollbar/dist/css/styles.css";
-import "./Profile.css";
+import "../Styles/Profile.css";
 
 // StarRating Component
 function StarRating({ rating, onRatingSubmit }) {

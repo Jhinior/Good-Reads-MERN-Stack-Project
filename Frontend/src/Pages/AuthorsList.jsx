@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CategoryList.css'; // Reuse the same CSS file
+import '../Styles/CategoryList.css'; // Reuse the same CSS file
 
 function AuthorsPage() {
   const [authors, setAuthors] = useState([]);

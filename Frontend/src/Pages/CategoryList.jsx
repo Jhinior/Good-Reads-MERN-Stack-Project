@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CategoryList.css'; // Import the custom CSS
+import '../Styles/CategoryList.css'; // Import the custom CSS
 
 function CategoryList() {
   const [categories, setCategories] = useState([]);
