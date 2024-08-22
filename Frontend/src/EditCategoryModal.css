@@ -1,5 +1,5 @@
 /* Common Modal Overlay */
-.modal-overlay {
+.edit-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,18 +13,18 @@
 }
 
 /* Common Modal Content */
-.modal-content {
+.edit-modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 400px;
     max-width: 90%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.3s ease;
+    animation: edit-fadeIn 0.3s ease;
 }
 
 /* Common Input Group */
-.input-group input {
+.edit-input-group input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -33,19 +33,19 @@
     transition: border-color 0.3s ease;
 }
 
-.input-group input:focus {
+.edit-input-group input:focus {
     border-color: #4CAF50;
     outline: none;
 }
 
 /* Common Modal Actions */
-.modal-actions {
+.edit-modal-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.modal-actions button {
+.edit-modal-actions button {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
@@ -53,26 +53,26 @@
     transition: background-color 0.3s ease;
 }
 
-.modal-actions button[type="submit"] {
+.edit-modal-actions button[type="submit"] {
     background-color: #4CAF50;
     color: white;
 }
 
-.modal-actions button[type="submit"]:hover {
+.edit-modal-actions button[type="submit"]:hover {
     background-color: #45a049;
 }
 
-.modal-actions button[type="button"] {
+.edit-modal-actions button[type="button"] {
     background-color: #f44336;
     color: white;
 }
 
-.modal-actions button[type="button"]:hover {
+.edit-modal-actions button[type="button"]:hover {
     background-color: #e53935;
 }
 
 /* Animations */
-@keyframes fadeIn {
+@keyframes edit-fadeIn {
     from {
         opacity: 0;
         transform: translateY(-20px);

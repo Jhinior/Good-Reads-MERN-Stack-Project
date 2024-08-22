@@ -1,13 +1,13 @@
-/* src/components/LoginAdmin.css */
-.login-container {
+.unique-login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background-color:  #F8EDE3;
+    font-family: Garamond;
 }
 
-.login-box {
+.unique-login-box {
     width: 400px;
     padding: 20px;
     border-radius: 10px;
@@ -16,17 +16,17 @@
     text-align: center;
 }
 
-.login-box h2 {
+.unique-login-box h2 {
     margin-bottom: 20px;
     font-size: 24px;
 }
 
-.input-group {
+.unique-input-group {
     position: relative;
     margin-bottom: 20px;
 }
 
-.input-group input {
+.unique-input-group input {
     width: 100%;
     padding: 12px 40px 12px 12px;
     border: 1px solid #ccc;
@@ -34,7 +34,7 @@
     font-size: 16px;
 }
 
-.input-group .icon {
+.unique-input-group .unique-icon {
     position: absolute;
     top: 50%;
     right: 10px;
@@ -43,7 +43,7 @@
     color: #888;
 }
 
-button {
+.unique-admin-btn {
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -54,6 +54,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.unique-admin-btn:hover {
     background-color: #555;
 }
