@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt")
 const appError = require("../utils/appError")
 const generateToken = require("../utils/generateJWT");
 const { validationResult } = require("express-validator");
+const { promise } = require("bcrypt/promises")
 
 
 const createUser= wrapAsync(async (req,res,next)=>{
@@ -112,9 +113,83 @@ const addReview = wrapAsync(async (req, res , next)=>{
     res.status(200).json({status: httpStatusText.SUCCESS, data: {book}})
 })
 
+const addChangeUserBook = wrapAsync(async(req , res ,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new appError (errors.array(), 400, httpStatusText.FAIL));
+    }
+    let{bookName , status} = req.body;
+    status = status.toUpperCase();
+    const currentUser = req.currentUser;
+    const user = await User.findById(currentUser.id);
+    const bookId = await Book.findOne({name: bookName} , '_id')
+    let ifBookExist = false;
+    user.read.forEach(item => {
+        if (item.book.equals(bookId._id)) {
+            item.status = status;
+            ifBookExist = true;
+        }
+    });
+    try{
+        if(!ifBookExist){
+            user.read.push({book: bookId , status})
+        }
+        await user.save();
+        res.status(200).json({status: httpStatusText.SUCCESS, message: "Status updated successfully"})
+    }catch(err){
+        next(new appError(err.message, 400 ,httpStatusText.FAIL))
+    }
+    
+
+})
+
+const getUserBooks = wrapAsync(async(req , res , next)=>{
+    let {status} = req.body;
+    const currentUser = req.currentUser;
+    const user = await User.findById(currentUser.id);
+    let books = [];
+    if(!status){
+        const bookPromises = user.read.map(async item => {
+            let book = await Book.findById(item.book).populate({path: "author", select:"-_id firstName lastName"}).select('-_id rating name author image');
+            book = book.toObject();
+            book.status = item.status;
+            book.userRate = item.rating;
+            return book;
+        });
+        try {
+             books = await Promise.all(bookPromises);
+            res.status(200).json({status: httpStatusText.SUCCESS, data:{books}})
+        } catch (err) {
+            next(new appError(err.message , 400 , httpStatusText.FAIL))
+        }
+        
+    }
+
+    status = status.toUpperCase();
+    const bookPromises = user.read.map(async item => {
+            if(item.status === status){
+                let book = await Book.findById(item.book).populate({path: "author", select:"-_id firstName lastName"}).select('-_id rating name author image');
+                book = book.toObject();
+                book.status = item.status;
+                book.userRate = item.rating;
+                return book;
+            }          
+        });
+        try {
+             books = await Promise.all(bookPromises);
+             books = books.filter(book => book != null);
+            res.status(200).json({status: httpStatusText.SUCCESS, data:{books}})
+        } catch (err) {
+            next(new appError(err.message , 400 , httpStatusText.FAIL))
+        }
+
+})
+
 module.exports = {
     loginUser,
     createUser,
     getUser,
-    addReview
+    addReview,
+    addChangeUserBook,
+    getUserBooks,
 }
