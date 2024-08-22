@@ -42,7 +42,7 @@ const userSchema = new Schema({
             status:{
                 type:String,
                 enum: ["READ", "READING", "WANT TO READ"],
-                default: "READ",
+                default: "None",
             }
         }]
     },
