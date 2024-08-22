@@ -1,15 +1,15 @@
-/* Categories Container */
-.categories-container {
+/* Admin Categories Container */
+.admin-categories-container {
     padding: 20px;
 }
 
-/* Tabs */
-.tabs {
+/* Admin Tabs */
+.admin-tabs {
     display: flex;
     margin-bottom: 10px;
 }
 
-.tabs button {
+.admin-tabs button {
     padding: 10px 20px;
     margin-right: 5px;
     background-color: #e0e0e0;
@@ -20,32 +20,32 @@
     transition: background-color 0.3s ease;
 }
 
-.tabs button:hover {
+.admin-tabs button:hover {
     background-color: #ccc;
 }
 
-/* Categories Table */
-.categories-table {
+/* Admin Categories Table */
+.admin-categories-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.categories-table th,
-.categories-table td {
+.admin-categories-table th,
+.admin-categories-table td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
-.categories-table th {
+.admin-categories-table th {
     background-color: #f4f4f4;
     font-weight: bold;
 }
 
-/* Buttons */
-.edit-btn,
-.delete-btn {
+/* Admin Buttons */
+.admin-edit-btn,
+.admin-delete-btn {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -54,15 +54,15 @@
     transition: color 0.3s ease;
 }
 
-.edit-btn:hover {
+.admin-edit-btn:hover {
     color: #007bff;
 }
 
-.delete-btn:hover {
+.admin-delete-btn:hover {
     color: #dc3545;
 }
 
-.add-category-btn {
+.admin-add-category-btn {
     margin: 20px 0;
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -74,12 +74,12 @@
     transition: background-color 0.3s ease;
 }
 
-.add-category-btn:hover {
+.admin-add-category-btn:hover {
     background-color: #45a049;
 }
 
-/* Modal */
-.add-category-modal {
+/* Admin Modal */
+.admin-add-category-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -92,7 +92,7 @@
     z-index: 1000;
 }
 
-.modal-content {
+.admin-modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -102,26 +102,26 @@
     animation: fadeIn 0.3s ease;
 }
 
-.modal-content h2 {
+.admin-modal-content h2 {
     margin-top: 0;
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-/* Form in Modal */
-.modal-content form {
+/* Form in Admin Modal */
+.admin-modal-content form {
     display: flex;
     flex-direction: column;
 }
 
-.modal-content label {
+.admin-modal-content label {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: 500;
 }
 
-.modal-content input {
+.admin-modal-content input {
     margin-bottom: 15px;
     padding: 10px;
     font-size: 14px;
@@ -130,12 +130,12 @@
     transition: border-color 0.3s ease;
 }
 
-.modal-content input:focus {
+.admin-modal-content input:focus {
     border-color: #4CAF50;
     outline: none;
 }
 
-.modal-content button[type="submit"] {
+.admin-modal-content button[type="submit"] {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -146,11 +146,11 @@
     transition: background-color 0.3s ease;
 }
 
-.modal-content button[type="submit"]:hover {
+.admin-modal-content button[type="submit"]:hover {
     background-color: #45a049;
 }
 
-.modal-content button[type="button"] {
+.admin-modal-content button[type="button"] {
     margin-top: 10px;
     background-color: #f44336;
     color: white;
@@ -162,7 +162,7 @@
     transition: background-color 0.3s ease;
 }
 
-.modal-content button[type="button"]:hover {
+.admin-modal-content button[type="button"]:hover {
     background-color: #e53935;
 }
 
