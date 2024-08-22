@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './CategoryList.css'; // Reuse the same CSS file
 
 function AuthorsPage() {
   const [authors, setAuthors] = useState([]);
@@ -36,18 +37,17 @@ function AuthorsPage() {
           {authors.length > 0 ? (
             authors.map(author => (
               <div className="col-md-4 mb-4" key={author.id}>
-                <div className="card mb-4 shadow-sm">
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      <Link to={`/author/${encodeURIComponent(author.firstName + ' ' + author.lastName)}`} className="text-decoration-none">
-                        {author.firstName} {author.lastName}
-                      </Link>
-                    </h5>
+                <div className="card category-card h-100 mb-4 shadow-sm">
+                  <div className="card-body d-flex flex-column">
+                  <h5 className="card-title">{author.firstName} {author.lastName}</h5>
                     {author.dob && (
                       <p className="card-text">
                         Born: {new Date(author.dob).toLocaleDateString()}
                       </p>
                     )}
+                    <Link to={`/author/${encodeURIComponent(author.firstName + ' ' + author.lastName)}`} className="btn btn-primary mt-auto">
+                      View Details
+                    </Link>
                   </div>
                 </div>
               </div>

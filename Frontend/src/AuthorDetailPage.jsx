@@ -34,12 +34,11 @@ function AuthorDetailPage() {
     fetchAuthorAndBooks();
   }, [name]);
 
-  const imageStyle = {
-    width: '350px', // Adjusted width to match CategoryPage
-    height: '600px', // Adjusted height to match CategoryPage
-  };
-
   return (
+    <>
+    <br></br>
+    <br></br>
+    <br></br>
     <div className="container">
       {error ? (
         <p className="text-danger">{error}</p>
@@ -49,8 +48,6 @@ function AuthorDetailPage() {
           {author.dateOfBirth && (
             <p className="mb-4">Born: {new Date(author.dateOfBirth).toLocaleDateString()}</p>
           )}
-
-          <h2>Books by {author.firstName} {author.lastName}:</h2>
           {books.length > 0 ? (
             <div className="row">
               {books.map(book => (
@@ -58,14 +55,15 @@ function AuthorDetailPage() {
                   <div className="card mb-4 shadow-sm">
                     <img
                       src={`http://localhost:5000${book.image}`}
-                      className="card-img-top"
+                      className="card-img-top book-img"
                       alt={book.name}
-                      style={imageStyle}
                       onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}
                     />
-                    <div className="card-body">
-                      <h5 className="card-title">{book.name}</h5>
-                      <p className="card-text">Average Rating: {book.avgRating}</p>
+                    <div className="card-body d-flex flex-column">
+                      <h5 className="card-title text-truncate">{book.name}</h5>
+                      <p className="card-text"><strong>Author:</strong> {author.firstName}</p>
+                      <p className="card-text"><strong>Average Rating:</strong> {book.avgRating}</p>
+                      <a href="#" className="btn btn-primary mt-auto">View Details</a>
                     </div>
                   </div>
                 </div>
@@ -79,6 +77,7 @@ function AuthorDetailPage() {
         <p>Loading...</p>
       )}
     </div>
+    </>
   );
 }
 

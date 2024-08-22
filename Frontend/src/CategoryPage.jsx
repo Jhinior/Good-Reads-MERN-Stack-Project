@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './CategoryPage.css';
 
 function CategoryPage() {
   const { id: categoryName } = useParams(); // Get the category name from URL
@@ -34,22 +35,17 @@ function CategoryPage() {
     fetchCategoryAndBooks();
   }, [categoryName]);
 
-  // Inline style for image
-  const imageStyle = {
-    width: '350px', // Fixed width for book cover size
-    height: '600px', // Fixed height for book cover size
-  };
-
   return (
     <div className="container">
       {error ? (
         <p className="text-danger">{error}</p>
       ) : category ? (
         <>
+        <br></br>
+        <br></br>
+        <br></br>
           <h1 className="my-4">{category.name}</h1>
-          <p>{category.description}</p>
-
-          <h2>Books in this Category:</h2>
+          <h3>{category.description}</h3>
           {books.length > 0 ? (
             <div className="row">
               {books.map(book => (
@@ -57,16 +53,15 @@ function CategoryPage() {
                   <div className="card mb-4 shadow-sm">
                     <img
                       src={`http://localhost:5000${book.image}`}
-                      className="card-img-top"
+                      className="card-img-top book-img"
                       alt={book.name}
-                      style={imageStyle}
                       onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}
                     />
-                    <div className="card-body">
-                      <h5 className="card-title">{book.name}</h5>
+                    <div className="card-body d-flex flex-column">
+                      <h5 className="card-title text-truncate">{book.name}</h5>
                       <p className="card-text">Category: {category.name}</p>
-                      {/* <p className="card-text">Author: {book.author.firstName}</p> */}
-                      {/* <p className="card-text">Average Rating: {book.avgRating}</p> */}
+                      <p className="card-text"><strong>Average Rating:</strong> {book.avgRating}</p>
+                      <a href="#" className="btn btn-primary mt-auto">View Details</a>
                     </div>
                   </div>
                 </div>

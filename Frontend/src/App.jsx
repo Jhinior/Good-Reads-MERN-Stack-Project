@@ -117,6 +117,7 @@ import AuthorsList from './AuthorsList';  // New import
 import AuthorDetailPage from './AuthorDetailPage';
 import Admin from './Admin';
 import AdminCategories from './AdminCategories';
+import AdminBooks from './AdminBooks';
 
 
 
@@ -145,16 +146,17 @@ function App() {
       {!isLoginPage && <Navbar />}
       <Routes>
         <Route path="/admin" element={<Admin />} />
-        <Route path="/" element={<Login setProfile={setProfile} />} />
+        <Route path="/" element={<BookList setProfileBooks={setProfileBooks} profileBooks={profileBooks} />} /> 
         <Route path="/profile" element={<Profile profile={profile} profileBooks={profileBooks} handleDeleteBook={handleDeleteBook} />} />
-        <Route path="/books" element={<BookList setProfileBooks={setProfileBooks} profileBooks={profileBooks} />} />
+        <Route path="/login" element={<Login setProfile={setProfile} />} />
         <Route path="/books/:id" element={<BookCard />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/admin/categories" element={<AdminCategories />} />
-        <Route path="/$" element={<CategoryList />} />
+        <Route path="/category" element={<CategoryList />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/author" element={<AuthorsList/>} />
         <Route path="/author/:name" element={<AuthorDetailPage/>} />
+        <Route path="/admin/books" element={<AdminBooks/>} />
       </Routes>
     </div>
   );

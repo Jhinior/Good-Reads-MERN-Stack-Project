@@ -286,12 +286,12 @@ function Login({ setProfile }) {
 
         try {
             if (isLogin) {
-                const response = await axios.post('https://yourapi.com/api/login', { email, password });
+                const response = await axios.post('http://localhost:5000/login', { email, password });
                 // Process login response
                 setProfile(response.data);
                 alert('Logged in successfully');
             } else {
-                const response = await axios.post('https://yourapi.com/api/register', { email, password, profilePicture, birthDate, gender });
+                const response = await axios.post('http://localhost:5000/register', { email, password, profilePicture, birthDate, gender });
                 // Process registration response
                 setProfile(response.data);
                 alert('Registered successfully');

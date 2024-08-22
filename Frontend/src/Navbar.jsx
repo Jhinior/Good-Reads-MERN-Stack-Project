@@ -36,10 +36,10 @@ function Navbar() {
           <Link to="/books">Good Reads</Link>
         </li>
         <li>
-          <Link to="/categories">Categories</Link>
+          <Link to="/category">Categories</Link>
         </li>
         <li>
-          <Link to="/authers">Authors</Link>
+          <Link to="/author">Authors</Link>
         </li>
       </ul>
       <ul className="center-nav">

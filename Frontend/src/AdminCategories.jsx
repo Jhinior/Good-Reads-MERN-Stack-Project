@@ -149,6 +149,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AdminCategories.css';
 import EditCategoryModal from './EditCategoryModal';
+import { Link } from 'react-router-dom';
 
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -215,9 +216,9 @@ const AdminCategories = () => {
   return (
     <div className="admin-categories-container">
       <div className="admin-tabs">
-        <button>Categories</button>
-        <button>Books</button>
-        <button>Authors</button>
+        <Link to="/admin/categories"><button className='active'>Categories</button></Link>
+        <Link to="/admin/books"><button>Books</button></Link>
+        <Link to="/admin/authors"><button>Authors</button></Link>
       </div>
 
       <button 

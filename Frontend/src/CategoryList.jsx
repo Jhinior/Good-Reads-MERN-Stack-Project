@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './CategoryList.css'; // Import the custom CSS
 
 function CategoryList() {
   const [categories, setCategories] = useState([]);
@@ -23,12 +24,11 @@ function CategoryList() {
       <div className="row">
         {categories.map(category => (
           <div className="col-md-4 mb-4" key={category._id}>
-            <div className="card mb-4 shadow-sm">
-              <div className="card-body">
+            <div className="card category-card h-100 mb-4 shadow-sm">
+              <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{category.name}</h5>
                 <p className="card-text">{category.description}</p>
-                {/* Navigate to category page when clicked */}
-                <Link to={`/category/${category.name}`} className="btn btn-primary">
+                <Link to={`/category/${category.name}`} className="btn btn-primary mt-auto">
                   View Books
                 </Link>
               </div>

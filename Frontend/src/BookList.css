@@ -1,49 +1,34 @@
-/* Books List */
-.main-books-list{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;    
-    margin: 0;
-    font-family: Garamond;
-  
-  }
-  .title{
-    margin-top: 7em; 
-    font-size: small; 
-    text-align: center;
-  }
-  .books-list {
-    display: flex;
-    flex-wrap: wrap;    
-    margin-top: 5em;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 4px 4px 9px 9px rgba(0, 0, 0, 0.456);
-    background-color: white;
-    border-radius: 1em;
-    width: 90em;
-    
-  }
-  .add-btn{
-    border: none;
-    background-color: hsl(120, 73%, 65%);
-    width: auto;
-    border-radius: 7px;
-    margin-top: 7px;
-    margin-bottom: 3px;
-    cursor: pointer;
-    font-family: Garamond;
-    font-size: medium;
-    color: white;
-  }
-  .details-btn{
-    border: none;
-    background-color: hsl(231, 73%, 65%);
-    width: auto;
-    border-radius: 7px;
-    color: white;
-    margin-bottom: 3px;
-    margin-left: 7px;
-    cursor: pointer;
-  }
+.book-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 100%; /* Ensure the card takes up the full width of its container */
+}
+
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.book-img {
+  width: 100%;
+  height: 700px; /* Adjust height if needed */
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.btn-primary {
+  background-color: #C5705D; /* Custom color for the button */
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #a64d3d; /* Darker shade for hover effect */
+}

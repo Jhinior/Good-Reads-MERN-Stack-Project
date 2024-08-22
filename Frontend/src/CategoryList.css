@@ -1,0 +1,30 @@
+/* Ensure all cards have the same height */
+.category-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  .category-card .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-card .card-title {
+    font-weight: 600;
+  }
+  
+  .category-card .card-text {
+    flex-grow: 1;
+  }
+  
+  .btn-primary {
+    background-color: #C5705D; /* Custom color for the button */
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #a64d3d; /* Darker shade for hover effect */
+  }
+  
