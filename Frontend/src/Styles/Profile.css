@@ -78,6 +78,7 @@
 }
 .remove-btn {
   margin-top: 10px;
+  margin-bottom: 10px;
   padding: 5px 10px;
   background-color: #ff4c4c;
   color: #fff;
@@ -145,9 +146,23 @@ text-decoration: none;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
+.close-btn{
+text-decoration: none;
+color: white;
+background-color: #ff4c4c;
+border-radius: 4px;
+font-size: large;
+padding: 7px;
+cursor: pointer;
 
+
+}
+.close-btn:hover{
+background-color: #e43d3d;
+
+}
 /* Show popup when targeted */
-#popup1:target, #popup2:target {
+#popup1:target, #popup2:target, #popup3:target {
   display: block;
 }
 
