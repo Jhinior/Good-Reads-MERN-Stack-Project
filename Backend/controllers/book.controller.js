@@ -10,14 +10,15 @@ const Author = require('../models/author.model')
 const getAllBooks = wrapAsync(async (req,res)=>{
     
     const books = await Book.find({},{"__v": false,"_id":false})
-    .populate({path: "author",select:"-_id id firstName lastName"})
-    .populate({path: "category",select:"-_id id name"})
+    .populate({path: "author",select:"_id id firstName lastName"})
+    .populate({path: "category",select:"_id id name"})
 
     res.json({ status: httpStatusText.SUCCESS, data: {books}})
  })
 
 const addBook = wrapAsync(async (req,res,next)=>{
-    let {name, category, author, image,} = req.body
+    console.log(req.body)
+    let {name, category, author} = req.body
     if (!name || !category || !author ) {
         return next(new appError('Please provide all the required fields', 400))
     }
@@ -27,7 +28,7 @@ const addBook = wrapAsync(async (req,res,next)=>{
         name,
         category,
         author,
-        image
+        image:req.file.filename
     })
     await book.save()
     .then(()=>{
@@ -36,6 +37,8 @@ const addBook = wrapAsync(async (req,res,next)=>{
     .catch((err)=>{
         if (err.code === 11000){
             return next(new appError(`Book ${book.name} already exists`, 400))
+        }else{
+            return next(new appError(`Book ${book.name} name is invalid`, 400))
         }
         next(err)
     })
@@ -48,6 +51,9 @@ const editBook = wrapAsync(async (req,res,next)=>{
         return next(new appError('Book not found', 404));
     }
     Object.assign(book, req.body);
+    if(req.file){
+        book.image = req.file.filename
+    }
     await book.save()
     .then(()=>{
         res.status(201).json({status: httpStatusText.SUCCESS, data: {book}}) 
@@ -61,7 +67,9 @@ const editBook = wrapAsync(async (req,res,next)=>{
 
 const deleteBook = wrapAsync(async (req,res,next)=>{
     const id = req.params.id
+    console.log(id)
     const book = await Book.findOne({id})
+    console.log(book)
     if (!book) {
         return next(new appError('Book not found', 404,httpStatusText.FAIL));
     }

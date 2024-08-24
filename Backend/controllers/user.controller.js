@@ -90,7 +90,6 @@ const loginUser = wrapAsync(async (req , res , next)=>{
         maxAge: 86400000
     });
     res.status(200).json({status:httpStatusText.SUCCESS,data:{userExist}})
-
 })
 
 const addReview = wrapAsync(async (req, res , next)=>{

@@ -20,15 +20,15 @@ router.post("/login",adminController.loginAdmin)
 
 router.patch("/:username/edit",verifyToken,adminController.editAdmin)
 
-router.get("/book",bookController.getAllBooks)
+router.get("/book",verifyToken,bookController.getAllBooks)
 
-router.post("/book/add",verifyToken,upload.single("image"),allowedTo(userRoles.ADMIN),bookController.addBook)
+router.post("/book/add",upload.single("image"),bookController.addBook)
 
 router.patch("/book/:id/edit",verifyToken,upload.single("image"),bookController.editBook)
 
 router.delete("/book/:id/delete",bookController.deleteBook)
  
-router.get("/author",authorController.getAllAuthors)
+router.get("/author",verifyToken,authorController.getAllAuthors)
 
 router.get("/author/:id",authorController.getOneAuthor)
 
@@ -38,15 +38,15 @@ router.patch("/author/:id/edit",verifyToken,upload.single("image"),authorControl
 
 router.delete("/author/:id/delete",authorController.deleteAuthor)
 
-router.get("/category", categoryController.getCategory);
+router.get("/category", verifyToken,categoryController.getCategory);
 
-router.post( "/category/add", isValidCategReq.addCategoryValidation() , categoryController.addCategory);
+router.post( "/category/add",  isValidCategReq.addCategoryValidation() , categoryController.addCategory);
 
 router.patch("/category/:id/edit" , isValidCategReq.addCategoryValidation() , categoryController.updateCategory)
 
 router.delete("/category/:id/delete" , categoryController.deleteCategory)
 
-router.get('/categories/name/:name', categoryController.getCategoryByName)
+router.get('/categories/name/:name', verifyToken, categoryController.getCategoryByName)
 
 router.get('/books/category/:categoryId', bookController.getBooksByCategory)
 

@@ -6,8 +6,8 @@ const idGenerator = require("../utils/idGenerator")
 
 
 const getAllAuthors= wrapAsync(async (req,res,next)=>{
-    const authors = await Author.find({},{"__v": false,"_id":false})
-    res.send(authors)
+    const authors = await Author.find({},{"__v": false})
+    res.status(200).json({status: httpStatusText.SUCCESS , data:{authors}})
 })
 
 const getOneAuthor= wrapAsync(async (req,res,next)=>{

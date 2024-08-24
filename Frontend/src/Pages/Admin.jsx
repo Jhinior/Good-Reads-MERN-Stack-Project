@@ -14,17 +14,17 @@ const LoginAdmin = () => {
       const response = await axios.post('http://localhost:5000/admin/login', {
         username,
         password,
+      }, {
+        withCredentials: true,
       });
-      
       if (response.data.status === 'success') {
-        console.log('You are logged in');
-        navigate('/admin/categories');      
+        navigate('/admin/categories');
       }
     } catch (error) {
-      console.error(error.response.data.message);
-      alert('Invalid username or password');
+      console.error('Login failed:', error);
     }
   };
+ 
 
   return (
     <div className="unique-login-container">

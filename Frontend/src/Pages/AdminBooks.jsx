@@ -1,48 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../Styles/AdminBooks.css' // Make sure this CSS file exists and is styled as needed
-// import EditBookModal from './EditBookModal'; // Create this component similarly to EditCategoryModal
+import '../Styles/AdminBooks.css';
 import { Link } from 'react-router-dom';
+import EditBookModal from './EditBookModal'; // Import EditBookModal if needed
 
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [authors, setAuthors] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
-  const [newBook, setNewBook] = useState({ name: '', author: '', category: '', rating: '' });
+  const [newBook, setNewBook] = useState({ name: '', author: '', category: '', image: null });
+  const [isEditBookModalOpen, setIsEditBookModalOpen] = useState(false); // For editing book
+  const [selectedBook, setSelectedBook] = useState(null); // For selected book
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/admin/book', {
+        withCredentials: true,
+      });
+      const responseCategory = await axios.get('http://localhost:5000/admin/category', {
+        withCredentials: true,
+      });
+      const responseAuthor = await axios.get('http://localhost:5000/admin/author', {
+        withCredentials: true,
+      });
+      if (response.data.status === 'success') {
+        setBooks(response.data.data.books);
+        setAuthors(responseAuthor.data.data.authors);
+        setCategories(responseCategory.data.data.categories);
+      }
+    } catch (error) {
+      console.error('Failed to fetch books:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/admin/book');
-        if (response.data.status === 'success') {
-          setBooks(response.data.data.books);
-        }
-      } catch (error) {
-        console.error('Failed to fetch books:', error);
-      }
-    };
-
     fetchBooks();
   }, []);
-
-  const handleEdit = (book) => {
-    setSelectedBook(book);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedBook(null);
-  };
 
   const handleDelete = async (bookId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this book?");
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:5000/admin/book/${bookId}/delete`);
-        // Remove the deleted book from the UI
-        setBooks(books.filter(book => book._id !== bookId));
+        setBooks(books.filter(book => book.id !== bookId));
       } catch (error) {
         console.error('Failed to delete book:', error);
       }
@@ -52,23 +53,45 @@ const BooksPage = () => {
   const handleAddBook = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('http://localhost:5000/admin/book/add', newBook);
+    if (!newBook.image) {
+      alert('Please upload an image for the book.');
+      return; 
+    }
 
+    const formData = new FormData();
+    formData.append('name', newBook.name);
+    formData.append('author', newBook.author);
+    formData.append('category', newBook.category);
+    formData.append('image', newBook.image); 
+
+    try {
+      const response = await axios.post('http://localhost:5000/admin/book/add', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       if (response.data.status === 'success') {
-        setBooks([...books, response.data.data.book]);
-        setNewBook({ name: '', author: '', category: '', rating: '' });
+        fetchBooks();
+        setNewBook({ name: '', author: '', category: '', image: null });
         setIsAddBookModalOpen(false);
       }
     } catch (error) {
-      console.error('Failed to add book:', error);
+      alert(error.response.data.message);
     }
+  };
+
+  const handleEdit = (book) => {
+    setSelectedBook(book);
+    setIsEditBookModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditBookModalOpen(false);
+    setSelectedBook(null);
   };
 
   return (
     <div className="books-container">
       <div className="tabs">
-      <Link to="/admin/categories"><button>Categories</button></Link>
+        <Link to="/admin/categories"><button>Categories</button></Link>
         <Link to="/admin/books"><button className='active'>Books</button></Link>
         <Link to="/admin/authors"><button>Authors</button></Link>
       </div>
@@ -84,6 +107,7 @@ const BooksPage = () => {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Author</th>
             <th>Category</th>
@@ -93,39 +117,24 @@ const BooksPage = () => {
         </thead>
         <tbody>
           {books.map((book, index) => (
-            <tr key={book._id}>
+            <tr key={book.id}>
               <td>{index + 1}</td>
+              <td>
+                {book.image ? <img src={`http://localhost:5000/uploads/${book.image}`} alt={book.name} style={{ width: '50px', height: 'auto' }} /> : 'N/A'}
+              </td>
               <td>{book.name}</td>
               <td>{book.author ? `${book.author.firstName} ${book.author.lastName}` : 'N/A'}</td>
               <td>{book.category ? book.category.name : 'N/A'}</td>
               <td>{book.rating}</td>
               <td>
                 <button className="edit-btn" onClick={() => handleEdit(book)}>✏️</button>
-                <button className="delete-btn" onClick={() => handleDelete(book._id)}>🗑️</button>
+                <button className="delete-btn" onClick={() => handleDelete(book.id)}>🗑️</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Edit Book Modal */}
-      {isModalOpen && (
-        <EditBookModal
-          book={selectedBook}
-          onClose={closeModal}
-          onUpdate={(updatedBook) => {
-            // Update the book list with the newly updated book
-            setBooks((prevBooks) =>
-              prevBooks.map((bk) =>
-                bk._id === updatedBook._id ? updatedBook : bk
-              )
-            );
-            closeModal();
-          }}
-        />
-      )}
-
-      {/* Add Book Modal */}
       {isAddBookModalOpen && (
         <div className="add-book-modal">
           <div className="modal-content">
@@ -140,27 +149,42 @@ const BooksPage = () => {
                 required
               />
               <label htmlFor="bookAuthor">Author</label>
-              <input
-                type="text"
+              {/* Dropdown menu for authors */}
+              <select
                 id="bookAuthor"
                 value={newBook.author}
                 onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
                 required
-              />
+              >
+                <option value="" disabled>Select an author</option>
+                {authors.map(author => (
+                  <option key={author._id} value={author._id}>
+                    {author.firstName} {author.lastName}
+                  </option>
+                ))}
+              </select>
               <label htmlFor="bookCategory">Category</label>
-              <input
-                type="text"
+              {/* Dropdown menu for categories */}
+              <select
                 id="bookCategory"
                 value={newBook.category}
                 onChange={(e) => setNewBook({ ...newBook, category: e.target.value })}
                 required
-              />
-              <label htmlFor="bookRating">Rating</label>
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map(category => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="bookImage">Book Image</label>
+              {/* Image upload input */}
               <input
-                type="text"
-                id="bookRating"
-                value={newBook.rating}
-                onChange={(e) => setNewBook({ ...newBook, rating: e.target.value })}
+                type="file"
+                id="bookImage"
+                accept="image/*"
+                onChange={(e) => setNewBook({ ...newBook, image: e.target.files[0] })}
                 required
               />
               <button type="submit">Add Book</button>
@@ -168,6 +192,22 @@ const BooksPage = () => {
             </form>
           </div>
         </div>
+      )}
+
+      {isEditBookModalOpen && selectedBook && (
+        <EditBookModal
+          book={selectedBook}
+          onClose={closeEditModal}
+          onUpdate={(book) => {
+            setBooks((prevBooks) =>
+              prevBooks.map((bk) =>
+               bk.id === book.id ? book : bk
+            )
+          );
+            fetchBooks()
+            closeEditModal();
+          }}
+        />
       )}
     </div>
   );

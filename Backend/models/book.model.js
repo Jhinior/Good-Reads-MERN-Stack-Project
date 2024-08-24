@@ -12,7 +12,7 @@ const bookSchema = new Schema({
         type: String,
         required : true,
         unique : true,
-        match : /^[A-Za-z\s.-]+$/
+        match : /^[A-Za-z0-9\s.-]+$/
     },
     category : {
         type : Schema.Types.ObjectId,
@@ -26,6 +26,7 @@ const bookSchema = new Schema({
     },
     image:{
         type:String,
+        defualt:"cat.jpg"
     },
     rating: {
         type: Number,

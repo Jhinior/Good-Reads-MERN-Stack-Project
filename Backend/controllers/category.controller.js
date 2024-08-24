@@ -50,7 +50,9 @@ const updateCategory = wrapAsync(async (req , res , next)=>{
       const updatedCategory = await Category.findOneAndUpdate({id:categoryId} ,{name: newCategoryName } , {new: true , runValidators: true});
       res.status(200).json({status: httpStatusText.SUCCESS , data:{updatedCategory}});   
     }catch(err){
-      return next(new appError(err.message, 400, httpStatusText.FAIL))
+      if (err.code === 11000){
+        return next(new appError(`Category ${newCategoryName} already exists`, 400))
+    }
     }    
 })
 

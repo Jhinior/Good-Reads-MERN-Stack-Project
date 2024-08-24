@@ -10,13 +10,8 @@ const path = require("path")
 const url = process.env.URL;
 const app = express();
 
-
-
 app.use('/uploads', express.static(path.join(__dirname,'uploads')));
 app.use(cookieParser());
-app.use(cors({
-  credentials: true
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -33,11 +28,11 @@ app.listen(5000, () => {
     });
 });
 
-app.use(cors())
-// app.use(cors({
-//   origin: 'http://localhost:3000', // Allow the frontend domain
-//   credentials: true, // Allow cookies to be sent
-// }));
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true, 
+}));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/admin",adminRoutes)
 app.use("/user",userRoutes)
