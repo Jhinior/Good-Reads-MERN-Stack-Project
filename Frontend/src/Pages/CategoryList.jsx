@@ -9,7 +9,7 @@ function CategoryList() {
 
   useEffect(() => {
     // Fetch categories from the backend API
-    axios.get('http://localhost:5000/admin/category')
+    axios.get('http://localhost:5000/admin/category' ,  { withCredentials: true })
       .then(response => {
         setCategories(response.data.data.categories);
       })

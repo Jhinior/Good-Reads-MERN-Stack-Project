@@ -12,8 +12,9 @@ function AuthorsPage() {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/author');
-        setAuthors(response.data);
+        const response = await axios.get('http://localhost:5000/admin/author', { withCredentials: true });
+        console.log(response.data.data.authors)
+        setAuthors(response.data.data.authors);
       } catch (error) {
         console.error('Error fetching authors:', error);
         setError('There was an error fetching the authors.');
@@ -40,6 +41,12 @@ function AuthorsPage() {
                 <div className="card category-card h-100 mb-4 shadow-sm">
                   <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{author.firstName} {author.lastName}</h5>
+                  <img
+                       src={author.photo}
+                      className="card-img-top book-img"
+                      alt={author.firstName + author.lastName}
+                      onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}
+                    />
                     {author.dob && (
                       <p className="card-text">
                         Born: {new Date(author.dob).toLocaleDateString()}

@@ -35,9 +35,37 @@ const addChangeUserBookValid = ()=>{
     ]
 }
 
+const deleteUserBookValid = ()=>{
+    return[
+        body("bookName")
+        .notEmpty()
+        .withMessage("Book name is required")
+        .isString()
+        .withMessage("Book name must be string"),
+    ]
+}
+
+const rateUserBookValid = ()=>{
+    return[
+        body("bookName")
+        .notEmpty()
+        .withMessage("Book name is required")
+        .isString()
+        .withMessage("Book name must be string"),
+
+        body("rating")
+        .notEmpty()
+        .withMessage("status is required")
+        .isInt({ min: 1, max: 5 }) 
+        .withMessage('Rating must be a number between 1 and 5')
+    ]
+}
+
 
 
 module.exports = {
     loginValidation,
-    addChangeUserBookValid
+    addChangeUserBookValid,
+    deleteUserBookValid,
+    rateUserBookValid
 }

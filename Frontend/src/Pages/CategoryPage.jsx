@@ -14,13 +14,13 @@ function CategoryPage() {
     const fetchCategoryAndBooks = async () => {
       try {
         // Fetch category details based on name
-        const categoryResponse = await axios.get(`http://localhost:5000/admin/categories/name/${categoryName}`);
+        const categoryResponse = await axios.get(`http://localhost:5000/admin/categories/name/${categoryName}`,  { withCredentials: true });
         const categoryData = categoryResponse.data.data.category;
         setCategory(categoryData);
 
         // Fetch books for the fetched category
         if (categoryData._id) {     
-          const booksResponse = await axios.get(`http://localhost:5000/admin/books/category/${categoryData._id}`);
+          const booksResponse = await axios.get(`http://localhost:5000/admin/books/category/${categoryData._id}`,  { withCredentials: true });
           setBooks(booksResponse.data.data.books);   
         } else {
           setError('Category ID not found');
@@ -52,7 +52,7 @@ function CategoryPage() {
                 <div className="col-md-4 mb-4" key={book._id}>
                   <div className="card mb-4 shadow-sm">
                     <img
-                      src={`http://localhost:5000${book.image}`}
+                       src={`http://localhost:5000/uploads/${book.image}`}
                       className="card-img-top book-img"
                       alt={book.name}
                       onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}

@@ -5,7 +5,7 @@ const userController = require("../controllers/user.controller")
 const upload = require("../middlewares/imageUpLoader")
 const isvalidUserReq = require("../middlewares/isValid UserReq")
 
-
+ 
 
 router.post("/register",upload.single("image"),userController.createUser);
 
@@ -16,6 +16,10 @@ router.post("/login" ,isvalidUserReq.loginValidation(), userController.loginUser
 router.patch("/addreview/:id",verifyToken,userController.addReview);
 
 router.patch("/userBooks/edit" , verifyToken,isvalidUserReq.addChangeUserBookValid(), userController.addChangeUserBook);
+
+router.patch("/userBooks/rate" , verifyToken,isvalidUserReq.rateUserBookValid(), userController.rateUserBook);
+
+router.delete("/userBooks/delete" , verifyToken,isvalidUserReq.deleteUserBookValid(), userController.deleteUserBook);
 
 router.get("/userBooks",verifyToken,userController.getUserBooks);
 

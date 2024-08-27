@@ -69,6 +69,7 @@ const loginUser = wrapAsync(async (req , res , next)=>{
     }
     const {email , password} = req.body;
     const userExist = await User.findOne({email: email.toLowerCase()})
+    console.log(userExist)
     if(!userExist){
         next(new appError("Email doesn't exist" , 404, httpStatusText.FAIL));
     }
@@ -138,8 +139,28 @@ const addChangeUserBook = wrapAsync(async(req , res ,next)=>{
     }catch(err){
         next(new appError(err.message, 400 ,httpStatusText.FAIL))
     }
-    
+})
 
+const rateUserBook = wrapAsync(async(req , res ,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new appError (errors.array(), 400, httpStatusText.FAIL));
+    }
+    let{bookName , rating} = req.body;
+    const currentUser = req.currentUser;
+    const user = await User.findById(currentUser.id);
+    const bookId = await Book.findOne({name: bookName} , '_id')
+    user.read.forEach(item => {
+        if (item.book.equals(bookId._id)) {
+            item.rating = rating;
+        }
+    });
+    try{
+        await user.save();
+        res.status(200).json({status: httpStatusText.SUCCESS, message: "Rating added successfully"})
+    }catch(err){
+        next(new appError(err.message, 400 ,httpStatusText.FAIL))
+    }
 })
 
 const getUserBooks = wrapAsync(async(req , res , next)=>{
@@ -184,6 +205,31 @@ const getUserBooks = wrapAsync(async(req , res , next)=>{
 
 })
 
+const deleteUserBook = wrapAsync(async(req , res ,next)=>{
+    console.log(req.body)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new appError (errors.array(), 400, httpStatusText.FAIL));
+    }
+    let{bookName} = req.body;
+    const currentUser = req.currentUser;
+    const user = await User.findById(currentUser.id);
+    const bookId = await Book.findOne({name: bookName} , '_id')
+    user.read.forEach(item => {
+        if (item.book.equals(bookId._id)) {
+            user.read.pull({ book: bookId._id });
+        }
+    });
+    try{
+        await user.save();
+        res.status(200).json({status: httpStatusText.SUCCESS, message: "Book Deleted successfully"})
+    }catch(err){
+        next(new appError(err.message, 400 ,httpStatusText.FAIL))
+    }
+    
+
+})
+
 module.exports = {
     loginUser,
     createUser,
@@ -191,4 +237,6 @@ module.exports = {
     addReview,
     addChangeUserBook,
     getUserBooks,
+    deleteUserBook,
+    rateUserBook
 }

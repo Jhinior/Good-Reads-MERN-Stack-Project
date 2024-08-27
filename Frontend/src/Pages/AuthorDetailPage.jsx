@@ -54,7 +54,7 @@ function AuthorDetailPage() {
                 <div className="col-md-4 mb-4" key={book._id}>
                   <div className="card mb-4 shadow-sm">
                     <img
-                      src={`http://localhost:5000${book.image}`}
+                      src={`http://localhost:5000/uploads/${book.image}`}
                       className="card-img-top book-img"
                       alt={book.name}
                       onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}

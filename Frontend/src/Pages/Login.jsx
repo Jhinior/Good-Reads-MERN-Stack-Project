@@ -92,12 +92,13 @@ function Login({ setProfile }) {
 
         try {
             if (isLogin) {
-                const response = await axios.post('http://localhost:5000/login', { email, password });
+                console.log(email , password)
+                const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
                 // Process login response
                 setProfile(response.data);
                 alert('Logged in successfully');
             } else {
-                const response = await axios.post('http://localhost:5000/register', { email, password, profilePicture, birthDate, gender });
+                const response = await axios.post('http://localhost:5000/user/register', { email, password, profilePicture, birthDate, gender });
                 // Process registration response
                 setProfile(response.data);
                 alert('Registered successfully');
