@@ -6,11 +6,13 @@ import axios from 'axios';
 function Login({ setProfile }) {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
-    const [birthDate, setBirthDate] = useState('');
-    const [gender, setGender] = useState('');
+    const [image, setImage] = useState(null);
+    // const [birthDate, setBirthDate] = useState('');
+    // const [gender, setGender] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
@@ -35,6 +37,14 @@ function Login({ setProfile }) {
         }
     };
 
+    const handleFirstNameChange = (e) => {
+        setfirstName(e.target.value);
+    };
+
+    const handleLastNameChange = (e) => {
+        setlastName(e.target.value);
+    };
+
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
         if (!validatePassword(e.target.value)) {
@@ -55,24 +65,26 @@ function Login({ setProfile }) {
 
     const handleProfilePictureChange = (e) => {
         const file = e.target.files[0];
+        
         if (file) {
-            const formData = new FormData();
-            formData.append('profilePicture', file);
+            setImage(file);
+            // const formData = new FormData();
+            // formData.append('profilePicture', file);
     
-            // Example of sending the file to the backend
-            axios.post('https://yourapi.com/api/uploadProfilePicture', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(response => {
-                console.log('File uploaded successfully');
-                // Handle response
-            })
-            .catch(error => {
-                console.error('Error uploading file:', error);
-                // Handle error
-            });
+            // // Example of sending the file to the backend
+            // axios.post('https://yourapi.com/api/uploadProfilePicture', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // })
+            // .then(response => {
+            //     console.log('File uploaded successfully');
+            //     // Handle response
+            // })
+            // .catch(error => {
+            //     console.error('Error uploading file:', error);
+            //     // Handle error
+            // });
         }
     };
 
@@ -84,10 +96,13 @@ function Login({ setProfile }) {
         }
 
         const profile = {
+            firstName,
+            lastName,
             email,
-            profilePicture,
-            birthDate,
-            gender
+            image,
+            password,
+            // birthDate,
+            // gender
         };
 
         try {
@@ -95,12 +110,17 @@ function Login({ setProfile }) {
                 console.log(email , password)
                 const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
                 // Process login response
-                setProfile(response.data);
+                // setProfile(response.data);
                 alert('Logged in successfully');
             } else {
-                const response = await axios.post('http://localhost:5000/user/register', { email, password, profilePicture, birthDate, gender });
+                console.log(firstName , lastName , email , password , image)
+                //  const response = await axios.post('http://localhost:5000/admin/book/add', formData, {
+                //         headers: { 'Content-Type': 'multipart/form-data' }
+                //     });
+                const response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName } , 
+                                                                                         {headers: { 'Content-Type': 'multipart/form-data' }});
                 // Process registration response
-                setProfile(response.data);
+                // setProfile(response.data);
                 alert('Registered successfully');
             }
         } catch (error) {
@@ -125,18 +145,18 @@ function Login({ setProfile }) {
                         <>
                             <div className="form-group-unique">
                                 <label>First Name:</label>
-                                <input type="text" name="firstName" required />
+                                <input type="text" name="firstName" onChange={handleFirstNameChange} required />
                             </div>
                             <div className="form-group-unique">
                                 <label>Last Name:</label>
-                                <input type="text" name="lastName" required />
+                                <input type="text" name="lastName" onChange={handleLastNameChange} required />
                             </div>
                             <div className="form-group-unique">
                                 <label>Profile Picture:</label>
                                 <input type="file" onChange={handleProfilePictureChange} />
-                                {profilePicture && <img src={profilePicture} alt="Profile" className="preview-img-unique" />}
+                                {/* {image && <img src={image} alt="Profile" className="preview-img-unique" />} */}
                             </div>
-                            <div className="form-group-unique">
+                            {/* <div className="form-group-unique">
                                 <label>Birth Date:</label>
                                 <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
                             </div>
@@ -148,7 +168,7 @@ function Login({ setProfile }) {
                                     <option value="Female">Female</option>
                                     <option value="Other">Other</option>
                                 </select>
-                            </div>
+                            </div> */}
                         </>
                     )}
                     <div className="form-group-unique">

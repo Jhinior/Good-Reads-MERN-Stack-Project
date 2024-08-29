@@ -4,44 +4,7 @@ import axios from "axios";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import '../Styles/Profile.css';
 
-// // StarRating Component
-// function StarRating({ rating, book, onRatingSubmit }) {
-//   const [currentRating, setCurrentRating] = useState(rating);
 
-//   useEffect(() => {
-//     setCurrentRating(rating);
-//   }, [rating]); 
-
-//   const handleClick = (value) => {
-//     setCurrentRating(value);
-//     // Send the rating to the server
-//     axios
-//       .patch(`http://localhost:5000/user/userBooks/rate`, {bookName: book.name , rating: value } ,  { withCredentials: true })
-//       .then((response) => {
-//         alert("Rating submitted successfully", response.data);
-//         if (onRatingSubmit) {
-//           onRatingSubmit(value);  
-//         }
-//       })
-//       .catch((error) => {
-//         console.error("Error submitting rating", error);
-//       });
-//   };
-
-//   return (
-//     <div className="star-rating">
-//       {[1, 2, 3, 4, 5].map((star) => (
-//         <span
-//           key={star}
-//           className={`star ${star <= currentRating ? "filled" : ""}`}
-//           onClick={() => handleClick(star)}
-//         >
-//           ★
-//         </span>
-//       ))}
-//     </div>
-//   );
-// }
 
 const Profile = () => {
   const [email, setEmail] = useState('');

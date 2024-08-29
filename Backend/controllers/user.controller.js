@@ -19,7 +19,6 @@ const createUser= wrapAsync(async (req,res,next)=>{
         return next(new appError('Password must be at least 8 characters long, contain at least 1 uppercase character 1 special charachter and 1 number',400))
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-
     const user = new User({
         firstName,
         lastName,
@@ -27,6 +26,7 @@ const createUser= wrapAsync(async (req,res,next)=>{
         password:hashedPassword,
         image:req.file.filename
     })
+    console.log("here")
     await user.save().then(async ()=>{
         const token = await generateToken({
             id: user._id,
