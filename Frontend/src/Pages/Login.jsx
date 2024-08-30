@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../Styles/Login.css'; 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login({ setProfile }) {
     const [isLogin, setIsLogin] = useState(true);
@@ -11,12 +12,11 @@ function Login({ setProfile }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [image, setImage] = useState(null);
-    // const [birthDate, setBirthDate] = useState('');
-    // const [gender, setGender] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const navigate = useNavigate() 
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -94,38 +94,27 @@ function Login({ setProfile }) {
             alert('Please fix the errors before submitting');
             return;
         }
-
         const profile = {
             firstName,
             lastName,
             email,
             image,
-            password,
-            // birthDate,
-            // gender
+            password
         };
-
         try {
             if (isLogin) {
                 console.log(email , password)
                 const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
-                // Process login response
-                // setProfile(response.data);
-                alert('Logged in successfully');
+                navigate("/books")
             } else {
                 console.log(firstName , lastName , email , password , image)
-                //  const response = await axios.post('http://localhost:5000/admin/book/add', formData, {
-                //         headers: { 'Content-Type': 'multipart/form-data' }
-                //     });
                 const response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName } , 
                                                                                          {headers: { 'Content-Type': 'multipart/form-data' }});
-                // Process registration response
-                // setProfile(response.data);
-                alert('Registered successfully');
+                navigate("/books")
             }
         } catch (error) {
-            console.error(error);
-            alert('An error occurred. Please try again.');
+            console.log(error);
+            alert(error.response.data.message);
         }
     };
 

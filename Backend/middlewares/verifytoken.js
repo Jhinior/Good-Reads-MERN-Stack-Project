@@ -4,7 +4,7 @@ const httpStatusText = require("../utils/httpStatusText");
 
 
 const verifyToken = (req, res, next) => {
-   const token = req.cookies.token; 
+  const token = req.cookies.token; 
   if(!token){
     return next(new appError("unauthorized action", 401, httpStatusText.FAIL))
   }

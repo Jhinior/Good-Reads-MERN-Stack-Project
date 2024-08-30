@@ -10,7 +10,7 @@ const { promise } = require("bcrypt/promises")
 
 
 const createUser= wrapAsync(async (req,res,next)=>{
-    const {firstName, lastName, email, password, image} = req.body
+    const {firstName, lastName, email, password} = req.body
     if (!firstName || !lastName || !password || !email ) {
         return next(new appError('Please provide all the required fields', 400));
     }
@@ -26,7 +26,6 @@ const createUser= wrapAsync(async (req,res,next)=>{
         password:hashedPassword,
         image:req.file.filename
     })
-    console.log("here")
     await user.save().then(async ()=>{
         const token = await generateToken({
             id: user._id,
