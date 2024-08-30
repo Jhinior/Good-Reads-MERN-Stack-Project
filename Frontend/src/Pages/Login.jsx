@@ -3,6 +3,12 @@ import '../Styles/Login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import * as jwt_decode from 'jwt-decode';
+
+import Cookies from 'js-cookie';
+
+
+
 
 function Login({ setProfile }) {
     const [isLogin, setIsLogin] = useState(true);
@@ -88,33 +94,88 @@ function Login({ setProfile }) {
         }
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     if (emailError || passwordError || confirmPasswordError) {
+    //         alert('Please fix the errors before submitting');
+    //         return;
+    //     }
+    //     const profile = {
+    //         firstName,
+    //         lastName,
+    //         email,
+    //         image,
+    //         password
+    //     };
+    //     try {
+    //         if (isLogin) {
+    //             console.log(email , password)
+    //             const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
+                
+               
+    //         } else {
+    //             console.log(firstName , lastName , email , password , image)
+    //             const response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName } , 
+    //             {headers: { 'Content-Type': 'multipart/form-data' }});
+    //             const token = Cookies.get('token');
+    //         if (token) {
+    //             const decodedToken = jwt_decode(token);
+    //             console.log(decodedToken); 
+    //         }
+
+    //         navigate("/books");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         alert(error.response.data.message);
+    //     }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (emailError || passwordError || confirmPasswordError) {
             alert('Please fix the errors before submitting');
             return;
         }
-        const profile = {
-            firstName,
-            lastName,
-            email,
-            image,
-            password
-        };
+        
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+        if (!isLogin) {
+            formData.append('firstName', firstName);
+            formData.append('lastName', lastName);
+            if (image) {
+                formData.append('image', image);
+            }
+        }
+    
         try {
+            let response;
             if (isLogin) {
-                console.log(email , password)
-                const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
-                navigate("/books")
+                console.log(email, password);
+                response = await axios.post('http://localhost:5000/user/login', formData, { withCredentials: true });
             } else {
-                console.log(firstName , lastName , email , password , image)
-                const response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName } , 
-                                                                                         {headers: { 'Content-Type': 'multipart/form-data' }});
-                navigate("/books")
+                console.log(firstName, lastName, email, password, image);
+                response = await axios.post('http://localhost:5000/user/register', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    withCredentials: true
+                });
+            }
+    
+            if (response && response.data) {
+                const token = response.data.token;
+                Cookies.set('token', token, { expires: 7 });
+    
+                const decodedToken = jwt_decode(token);
+                console.log(decodedToken);
+    
+                navigate("/books");
+            } else {
+                throw new Error('Unexpected response format');
             }
         } catch (error) {
             console.log(error);
-            alert(error.response.data.message);
+            const errorMessage = error.response?.data?.message || error.message;
+            alert(errorMessage);
         }
     };
 
