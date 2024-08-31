@@ -68,7 +68,6 @@ const loginUser = wrapAsync(async (req , res , next)=>{
     }
     const {email , password} = req.body;
     const userExist = await User.findOne({email: email.toLowerCase()})
-    console.log(userExist)
     if(!userExist){
         next(new appError("Email doesn't exist" , 404, httpStatusText.FAIL));
     }
