@@ -63,7 +63,7 @@ function AuthorDetailPage() {
                       <h5 className="card-title text-truncate">{book.name}</h5>
                       <p className="card-text"><strong>Author:</strong> {author.firstName}</p>
                       <p className="card-text"><strong>Average Rating:</strong> {book.avgRating}</p>
-                      <a href="#" className="btn btn-primary mt-auto">View Details</a>
+                      <a href={`/books/${book.id}`} className="btn btn-primary mt-auto">View Details</a>
                     </div>
                   </div>
                 </div>

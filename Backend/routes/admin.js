@@ -20,7 +20,9 @@ router.post("/login",adminController.loginAdmin)
 
 router.patch("/:username/edit",verifyToken,adminController.editAdmin)
 
-router.get("/book",verifyToken,bookController.getAllBooks)
+router.get("/book",bookController.getAllBooks)
+
+router.get("/book/:id",bookController.getBook)
 
 router.post("/book/add",upload.single("image"),bookController.addBook)
 
@@ -28,7 +30,7 @@ router.patch("/book/:id/edit",verifyToken,upload.single("image"),bookController.
 
 router.delete("/book/:id/delete",bookController.deleteBook)
  
-router.get("/author",verifyToken,authorController.getAllAuthors)
+router.get("/author",authorController.getAllAuthors)
 
 router.get("/author/:id",authorController.getOneAuthor)
 
@@ -38,7 +40,7 @@ router.patch("/author/:id/edit",verifyToken,upload.single("image"),authorControl
 
 router.delete("/author/:id/delete",authorController.deleteAuthor)
 
-router.get("/category", verifyToken,categoryController.getCategory);
+router.get("/category" ,categoryController.getCategory);
 
 router.post( "/category/add",  isValidCategReq.addCategoryValidation() , categoryController.addCategory);
 

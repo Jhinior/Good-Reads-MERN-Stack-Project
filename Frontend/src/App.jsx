@@ -46,7 +46,7 @@ function App() {
       {showNavbar && <Navbar />}
       <Routes>
         <Route path="/admin" element={<Admin />} />
-        <Route path="/" element={<BookList setProfileBooks={setProfileBooks} profileBooks={profileBooks} />} /> 
+        <Route path="/books" element={<BookList setProfileBooks={setProfileBooks} profileBooks={profileBooks} />} /> 
         <Route path="/profile" element={<Profile profile={profile} profileBooks={profileBooks} handleDeleteBook={handleDeleteBook} />} />
         <Route path="/login" element={<Login setProfile={setProfile} />} />
         <Route path="/books/:id" element={<BookCard />} />

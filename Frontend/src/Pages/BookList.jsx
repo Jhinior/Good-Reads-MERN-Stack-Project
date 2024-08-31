@@ -11,6 +11,7 @@ function BooksList() {
     // Fetch books from the backend API
     axios.get('http://localhost:5000/admin/book')
       .then(response => {
+        console.log(response.data.data.books)
         setBooks(response.data.data.books);  
       })
       .catch(error => {
@@ -20,10 +21,14 @@ function BooksList() {
 
   return (
     <>
-    <br></br>
-    <br></br>
-    <br></br>
     <Navbar />
+    <div className="title">
+        <h1 className='title-text'>
+          "Step into a world where every page whispers a tale, <br></br>and every book is
+          a portal to dreams untold.<br></br> Welcome to a sanctuary of stories,<br></br> where
+          imagination takes flight and adventures begin anew."
+        </h1>
+      </div>
     <div className="container my-5">
       <h1 className="text-center mb-5">Books Collection</h1>
       <div className="row">
@@ -31,7 +36,7 @@ function BooksList() {
           <div className="col-md-4 mb-4" key={book.id}>
             <div className="card mb-4 shadow-sm">
               <img
-                src={`http://localhost:5000${book.image}`}
+                src={`http://localhost:5000/uploads/${book.image}`}
                 className="card-img-top book-img"
                 alt={book.name}
                 onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}
@@ -40,8 +45,8 @@ function BooksList() {
                 <h5 className="card-title text-truncate">{book.name}</h5>
                 <p className="card-text"><strong>Category:</strong> {book.category.name}</p>
                 <p className="card-text"><strong>Author:</strong> {book.author.firstName}</p>
-                {/* <p className="card-text"><strong>Average Rating:</strong> {book.avgRating}</p> */}
-                <a href="#" className="btn btn-primary mt-auto">View Details</a>
+                {/* <p className="card-text"><strong>Average Rating:</strong> {book.rating}</p> */}
+                <a href={`/books/${book.id}`} className="btn btn-primary mt-auto">View Details</a>
               </div>
             </div>
           </div>

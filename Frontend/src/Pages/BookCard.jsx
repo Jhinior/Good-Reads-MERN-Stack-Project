@@ -1,225 +1,11 @@
-
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { useParams } from 'react-router-dom';
-// import './index.css'; 
-
-// function BookCard(){
-//     const { id } = useParams();
-//     const [book, setBook] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const [rating, setRating] = useState(0);
-//     const [comments, setComments] = useState([]);
-
-//     useEffect(() => {
-//         // Replace with the correct API endpoint
-//         axios.get(`https://freetestapi.com/api/v1/books/${id}`) 
-//             .then(response => {
-//                 setBook(response.data); 
-//                 setLoading(false);
-//             })
-//             .catch(error => {
-//                 setError(error);
-//                 setLoading(false);
-//             });
-
-//         // Fetch rating and comments
-//         axios.get(`https://freetestapi.com/api/v1/books/${id}/ratings`)
-//             .then(response => {
-//                 setRating(response.data.rating);
-//                 setComments(response.data.comments);
-//             })
-//             .catch(error => {
-//                 console.error("Error fetching rating and comments", error);
-//             });
-//     }, [id]);
-
-//     if (loading) return <div>Loading...</div>;
-//     if (error) return <div>Error: {error.message}</div>;
-//     if (!book) return <div>No book found</div>;
-
-//     return (
-//         <>
-//         <h2 className='details-header'>Here all the details</h2>
-//       <div className='center-container-details'>        
-//         <div className="book-details">
-//           <h1>{book.title}</h1>
-//           <p>Author: {book.author}</p>
-//           <p>Publish Year: {book.publication_year}</p>
-//           <p>Description: {book.description}</p>
-//           <p>Genre: {book.genre}</p>
-//         </div>
-//         <div className="rating-section">
-//           <h3>Rating: {rating}</h3>
-//           <div>
-//               {[1, 2, 3, 4, 5].map(star => (
-//                   <span key={star}>
-//                       {star <= rating ? '★' : '☆'}
-//                   </span>
-//               ))}
-//           </div>
-//         </div>
-//         <div className="comments-section">
-//           <h3>Comments</h3>
-//           <ul>
-//               {comments.map((comment, index) => (
-//                   <li key={index}>{comment.text}</li>
-//               ))}
-//           </ul>
-//         </div>
-//       </div>
-//       </>
-//     );
-// };
-
-// // export default BookCard;
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { useParams } from 'react-router-dom';
-// import './index.css';
-
-// // StarRating Component
-// function StarRating({ bookId, currentRating, onRatingSubmit }) {
-//   const [rating, setRating] = useState(currentRating);
-
-//   const handleClick = (value) => {
-//     setRating(value);
-//     onRatingSubmit(bookId, value); // Submit the rating
-//   };
-
-//   return (
-//     <div className="star-rating">
-//       {[1, 2, 3, 4, 5].map((star) => (
-//         <span
-//           key={star}
-//           className={`star ${star <= rating ? 'filled' : ''}`}
-//           onClick={() => handleClick(star)}
-//         >
-//           ★
-//         </span>
-//       ))}
-//     </div>
-//   );
-// }
-
-// // CommentForm Component
-// function CommentForm({ bookId, onCommentSubmit }) {
-//   const [comment, setComment] = useState('');
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (comment) {
-//       onCommentSubmit(bookId, comment); // Submit the comment
-//       setComment('');
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="comment-form">
-//       <textarea
-//         value={comment}
-//         onChange={(e) => setComment(e.target.value)}
-//         placeholder="Add your comment here..."
-//       />
-//       <button type="submit">Submit Comment</button>
-//     </form>
-//   );
-// }
-
-// function BookCard() {
-//   const { id } = useParams();
-//   const [book, setBook] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [rating, setRating] = useState(0);
-//   const [comments, setComments] = useState([]);
-
-//   useEffect(() => {
-//     // Fetch book details
-//     axios.get(`https://freetestapi.com/api/v1/books/${id}`)
-//       .then(response => {
-//         setBook(response.data);
-//         setLoading(false);
-//       })
-//       .catch(error => {
-//         setError(error);
-//         setLoading(false);
-//       });
-
-//     // Fetch book rating and comments
-//     axios.get(`https://freetestapi.com/api/v1/books/${id}/ratings`)
-//       .then(response => {
-//         setRating(response.data.rating);
-//         setComments(response.data.comments);
-//       })
-//       .catch(error => {
-//         console.error("Error fetching rating and comments", error);
-//       });
-//   }, [id]);
-
-//   const handleRatingSubmit = (bookId, rating) => {
-//     axios.post(`https://freetestapi.com/api/v1/books/${bookId}/ratings`, { rating })
-//       .then(response => {
-//         console.log('Rating submitted successfully', response.data);
-//         setRating(rating); // Update local state
-//       })
-//       .catch(error => {
-//         console.error('Error submitting rating:', error);
-//       });
-//   };
-
-//   const handleCommentSubmit = (bookId, comment) => {
-//     axios.post(`https://freetestapi.com/api/v1/books/${bookId}/comments`, { comment })
-//       .then(response => {
-//         console.log('Comment submitted successfully', response.data);
-//         setComments((prevComments) => [...prevComments, { text: comment }]); // Update local state
-//       })
-//       .catch(error => {
-//         console.error('Error submitting comment:', error);
-//       });
-//   };
-
-//   if (loading) return <div>Loading...</div>;
-//   if (error) return <div>Error: {error.message}</div>;
-//   if (!book) return <div>No book found</div>;
-
-//   return (
-//     <>
-//       <h2 className='details-header'>Here are all the details</h2>
-//       <div className='center-container-details'>
-//         <div className="book-details">
-//           <h1>{book.title}</h1>
-//           <p>Author: {book.author}</p>
-//           <p>Publish Year: {book.publication_year}</p>
-//           <p>Description: {book.description}</p>
-//           <p>Genre: {book.genre}</p>
-//         </div>
-//         <div className="rating-section">
-//           <h3>Rating: {rating}</h3>
-//           <StarRating bookId={id} currentRating={rating} onRatingSubmit={handleRatingSubmit} />
-//         </div>
-//         <div className="comments-section">
-//           <h3>Comments</h3>
-//           <ul>
-//             {comments.map((comment, index) => (
-//               <li key={index}>{comment.text}</li>
-//             ))}
-//           </ul>
-//           <CommentForm bookId={id} onCommentSubmit={handleCommentSubmit} />
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default BookCard;
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Cookies from "js-cookie";
 import '../Styles/BookCard.css';
 
+
+ 
 // StarRating Component for display only
 function StarRating({ rating }) {
   return (
@@ -243,36 +29,78 @@ function BookCard() {
   const [error, setError] = useState(null);
   const [rating, setRating] = useState(0);
   const [comments, setComments] = useState([]);
-
+  const [wantToReadBooks, setWantToReadBooks] = useState([]);
+  const [currentReadingBooks, setCurrentReadingBooks] = useState([]);
+  const [readBooks, setReadBooks] = useState([]);
+  const token = Cookies.get('token'); 
   useEffect(() => {
     // Fetch book details
-    axios.get(`https://freetestapi.com/api/v1/books/${id}`)
+    axios.get(`http://localhost:5000/admin/book/${id}`)
       .then(response => {
-        setBook(response.data);
+        setBook(response.data.data.book);
+        console.log(response.data.data.book)
         setLoading(false);
       })
       .catch(error => {
         setError(error);
         setLoading(false);
       });
-
-    // Fetch book rating and comments
-    axios.get(`https://freetestapi.com/api/v1/books/${id}/ratings`)
-      .then(response => {
-        setRating(response.data.rating);
-      })
-      .catch(error => {
-        console.error("Error fetching rating", error);
-      });
-
-    axios.get(`https://freetestapi.com/api/v1/books/${id}/comments`)
-      .then(response => {
-        setComments(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching comments", error);
-      });
   }, [id]);
+
+  // Submit book status to the server
+  const handleAddToCurrentReading = (book) => {
+    if(token){
+         setCurrentReadingBooks((prevBooks) => [...prevBooks, book]);
+
+          axios
+            .patch(`http://localhost:5000/user/userBooks/edit`, {bookName: book.name ,  status: 'reading' } , { withCredentials: true })
+            .then((response) => {
+              alert("Book status updated to Currently Reading");
+            })
+            .catch((error) => {
+              console.error("Error updating book status", error);
+            });
+    }else{
+      alert("please Login first")
+    }
+   
+  };
+
+  const handleAddToWantToRead = (book) => {
+    if(token){
+          axios
+        .patch(`http://localhost:5000/user/userBooks/edit`, {bookName: book.name ,  status: 'want to read' } , { withCredentials: true })
+        .then((response) => {
+          alert("Book status updated to Want To Reading");
+        })
+        .catch((error) => {
+          console.error("Error updating book status", error);
+        });
+    }else{
+      alert("please Login first")
+    }
+    setWantToReadBooks((prevBooks) => [...prevBooks, book]);
+
+    
+  };
+
+  const handleAddToAlreadyRead = (book) => {
+    if(token){
+        setReadBooks((prevBooks) => [...prevBooks, book]);
+
+        axios
+          .patch(`http://localhost:5000/user/userBooks/edit`, {bookName: book.name ,  status: 'read' } , { withCredentials: true })
+          .then((response) => {
+            alert("Book status updated to Want To read");
+          })
+          .catch((error) => {
+            console.error("Error updating book status", error);
+          });
+    }else{
+      alert("please Login first")
+    }
+    
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -280,26 +108,72 @@ function BookCard() {
 
   return (
     <>
-      <h2 className='details-header'>Here are all the details</h2>
+      <h2 className='details-header'>Book Details</h2>
       <div className='center-container-details'>
         <div className="book-details">
-          <h1>{book.title}</h1>
-          <p>Author: {book.author}</p>
-          <p>Publish Year: {book.publication_year}</p>
-          <p>Description: {book.description}</p>
-          <p>Genre: {book.genre}</p>
+          <img
+                src={`http://localhost:5000/uploads/${book.image}`}
+                className="card-img-top book-img"
+                alt={book.name}
+                onError={(e) => e.target.src = 'https://via.placeholder.com/350x600'}
+          />
+                <div className='info-container'>
+                    <h1>{book.name}</h1>
+                    <p>Author: {book.author.firstName+" "+ book.author.lastName}</p>
+                    <p>Category: {book.category.name}</p>
+                </div>
+                <div className='button-container'>
+                      <button
+                      className="profile-btn"
+                      onClick={() => handleAddToWantToRead(book)}
+                    >
+                      Add to Want to Read
+                    </button>
+                    <button
+                      className="profile-btn"
+                      onClick={() => handleAddToCurrentReading(book)}
+                    >
+                      Add to Current Reading
+                    </button>
+                    <button
+                      className="profile-btn"
+                      onClick={() => handleAddToAlreadyRead(book)}
+                    >
+                      Already Read
+                    </button>
+                </div>
         </div>
         <div className="rating-section">
-          <h3>Rating: {rating}</h3>
-          <StarRating rating={rating} />
+          <h3>Rating: {book.rating}</h3>
+          <StarRating rating={book.rating} />
         </div>
         <div className="comments-section">
           <h3>Comments</h3>
           <ul>
-            {comments.map((comment, index) => (
-              <li key={index}>{comment.text}</li>
+            {book.reviews.map((comment, index) => (
+              <li key={index}> 
+                <div>
+                    <h5>{comment.name}</h5>
+                    <h5>{comment.email}</h5>
+                    <p>{comment.review}</p>
+                    <h6>posted At :{comment.date}</h6>
+                </div> 
+              </li>
             ))}
           </ul>
+           {/* <textarea
+                    value={newComments[book.id] || ""}
+                    onChange={(e) => handleCommentChange(book.id, e.target.value)}
+                    placeholder="Add a comment"
+                  /> */}
+                  {/* <button
+                    className="profile-btn"
+                    onClick={() => handleAddComment(book.id)}
+                    disabled={loading}
+                  >
+                    <RiCheckboxCircleLine size={24} />
+                    {loading ? "Submitting..." : "Submit"}
+                  </button> */}
         </div>
       </div>
     </>

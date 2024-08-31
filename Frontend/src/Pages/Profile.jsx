@@ -3,6 +3,7 @@ import { RiDeleteBin6Line, RiCheckboxCircleLine } from "react-icons/ri";
 import axios from "axios";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import '../Styles/Profile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -19,41 +20,6 @@ const Profile = () => {
   const [profileBooks, setProfileBooks] = useState([]);
 
 
-  // Handle comment changes
-  // const handleCommentChange = (bookId, comment) => {
-  //   setNewComments((prevComments) => ({
-  //     ...prevComments,
-  //     [bookId]: comment,
-  //   }));
-  // };
-
-  // Submit comment to the server
-  // const handleAddComment = (bookId) => {
-  //   const commentData = { text: newComments[bookId] };
-  //   setLoading(true);
-
-  //   axios
-  //     .post(`https://freetestapi.com/api/v1/books/${bookId}/comments`, commentData)
-  //     .then((response) => {
-  //       const updatedBooks = profileBooks.map((book) => {
-  //         if (book.id === bookId) {
-  //           return { ...book, comments: [...book.comments, response.data] };
-  //         }
-  //         return book;
-  //       });
-  //       setProfileBooks(updatedBooks);
-  //       setNewComments((prevComments) => ({
-  //         ...prevComments,
-  //         [bookId]: "",
-  //       }));
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error adding comment", error);
-  //       setError(error);
-  //       setLoading(false);
-  //     });
-  // };
 
   const fetchUserBooks = async () => {
     try {
@@ -200,7 +166,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
            <p>Name: {name}</p>
         </div>
       </div>
-
       <h2 className="books-head">Books</h2>
        <div className="profile-center-container">
           {profileBooks.map((book) => (
@@ -220,30 +185,17 @@ function StarRating({ rating, book, onRatingSubmit }) {
               <p>Rating: {book.userRate}</p>
               <div className="rating-section">
                 <StarRating rating={book.userRate} book={book} />
-                {/* <textarea
-                  value={newComments[book.id] || ""}
-                  onChange={(e) => handleCommentChange(book.id, e.target.value)}
-                  placeholder="Add a comment"
-                /> */}
-                {/* <button
-                  className="profile-btn"
-                  onClick={() => handleAddComment(book.id)}
-                  disabled={loading}
-                >
-                  <RiCheckboxCircleLine size={24} />
-                  {loading ? "Submitting..." : "Submit"}
-                </button> */}
                 <button
                   className="profile-btn"
                   onClick={() => handleAddToWantToRead(book)}
                 >
-                  Add to Want to Read
+                   Want to Read
                 </button>
                 <button
                   className="profile-btn"
                   onClick={() => handleAddToCurrentReading(book)}
                 >
-                  Add to Current Reading
+                   Current Reading
                 </button>
                 <button
                   className="profile-btn"
@@ -251,7 +203,18 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 >
                   Already Read
                 </button>
+
+                <a href={`/books/${book.id}`}>
+                      <button
+                        className="profile-btn"
+                        onClick={() => handleAddToAlreadyRead(book)}
+                      >
+                        View Details
+                      </button>
+                </a>
+
                 {error && <p>Error adding comment: {error.message}</p>}
+               
               </div>
               <button
                 onClick={() => handleRemoveBook(book)}
@@ -260,6 +223,7 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 <RiDeleteBin6Line /> Remove
               </button>
             </div>
+            
           ))}
       </div>
 
@@ -304,19 +268,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 <p>Rating: {book.userRate}</p>
                 <div className="rating-section">
                   <StarRating rating={book.userRate} book={book} />
-                  {/* <textarea
-                    value={newComments[book.id] || ""}
-                    onChange={(e) => handleCommentChange(book.id, e.target.value)}
-                    placeholder="Add a comment"
-                  /> */}
-                  {/* <button
-                    className="profile-btn"
-                    onClick={() => handleAddComment(book.id)}
-                    disabled={loading}
-                  >
-                    <RiCheckboxCircleLine size={24} />
-                    {loading ? "Submitting..." : "Submit"}
-                  </button> */}
                   <button
                     className="profile-btn"
                     onClick={() => handleAddToWantToRead(book)}
@@ -335,6 +286,14 @@ function StarRating({ rating, book, onRatingSubmit }) {
                   >
                     Already Read
                   </button>
+                  <a href={`/books/${book.id}`}>
+                      <button
+                        className="profile-btn"
+                        onClick={() => handleAddToAlreadyRead(book)}
+                      >
+                        View Details
+                      </button>
+                </a>
                   {error && <p>Error adding comment: {error.message}</p>}
                 </div>
                 <button
@@ -407,6 +366,14 @@ function StarRating({ rating, book, onRatingSubmit }) {
                   >
                     Already Read
                   </button>
+                  <a href={`/books/${book.id}`}>
+                      <button
+                        className="profile-btn"
+                        onClick={() => handleAddToAlreadyRead(book)}
+                      >
+                        View Details
+                      </button>
+                </a>
                   {error && <p>Error adding comment: {error.message}</p>}
                 </div>
                 <button
@@ -415,6 +382,7 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 >
                   <RiDeleteBin6Line /> Remove
                 </button>
+               
               </div>
             ))
           )}
@@ -480,6 +448,14 @@ function StarRating({ rating, book, onRatingSubmit }) {
                   >
                     Already Read
                   </button>
+                  <a href={`/books/${book.id}`}>
+                      <button
+                        className="profile-btn"
+                        onClick={() => handleAddToAlreadyRead(book)}
+                      >
+                        View Details
+                      </button>
+                </a>
                   {error && <p>Error adding comment: {error.message}</p>}
                 </div>
                 <button
