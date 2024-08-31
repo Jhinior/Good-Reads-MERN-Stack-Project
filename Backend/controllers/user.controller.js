@@ -67,6 +67,7 @@ const loginUser = wrapAsync(async (req , res , next)=>{
       return next(new appError (errors.array(), 400, httpStatusText.FAIL));
     }
     const {email , password} = req.body;
+    console.log(email, password)
     const userExist = await User.findOne({email: email.toLowerCase()})
     console.log(userExist)
     if(!userExist){

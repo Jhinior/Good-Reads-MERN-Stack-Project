@@ -137,25 +137,32 @@ function Login({ setProfile }) {
             return;
         }
         
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
-        if (!isLogin) {
-            formData.append('firstName', firstName);
-            formData.append('lastName', lastName);
-            if (image) {
-                formData.append('image', image);
-            }
-        }
+        // const formData = new FormData();
+        // formData.append('email', email);
+        // formData.append('password', password);
+        // if (!isLogin) {
+        //     formData.append('firstName', firstName);
+        //     formData.append('lastName', lastName);
+        //     if (image) {
+        //         formData.append('image', image);
+        //     }
+        // }
+        const profile = {
+                    firstName,
+                    lastName,
+                    email,
+                    image,
+                    password
+                };
     
         try {
             let response;
             if (isLogin) {
                 console.log(email, password);
-                response = await axios.post('http://localhost:5000/user/login', formData, { withCredentials: true });
+                response = await axios.post('http://localhost:5000/user/login', { email, password }, { withCredentials: true });
             } else {
                 console.log(firstName, lastName, email, password, image);
-                response = await axios.post('http://localhost:5000/user/register', formData, {
+                response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName }, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 });
@@ -173,8 +180,8 @@ function Login({ setProfile }) {
                 throw new Error('Unexpected response format');
             }
         } catch (error) {
-            console.log(error);
-            const errorMessage = error.response?.data?.message || error.message;
+            // console.log(error);
+            const errorMessage = error.response.data.message || error.message;
             alert(errorMessage);
         }
     };
