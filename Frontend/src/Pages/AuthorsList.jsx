@@ -12,7 +12,7 @@ function AuthorsPage() {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/author', { withCredentials: true });
+        const response = await axios.get('http://localhost:5000/admin/author');
         console.log(response.data.data.authors)
         setAuthors(response.data.data.authors);
       } catch (error) {

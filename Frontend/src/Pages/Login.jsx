@@ -3,6 +3,12 @@ import '../Styles/Login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import * as jwt_decode from 'jwt-decode';
+
+import Cookies from 'js-cookie';
+
+
+
 
 function Login({ setProfile }) {
     const [isLogin, setIsLogin] = useState(true);
@@ -68,55 +74,84 @@ function Login({ setProfile }) {
         
         if (file) {
             setImage(file);
-            // const formData = new FormData();
-            // formData.append('profilePicture', file);
-    
-            // // Example of sending the file to the backend
-            // axios.post('https://yourapi.com/api/uploadProfilePicture', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data'
-            //     }
-            // })
-            // .then(response => {
-            //     console.log('File uploaded successfully');
-            //     // Handle response
-            // })
-            // .catch(error => {
-            //     console.error('Error uploading file:', error);
-            //     // Handle error
-            // });
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (emailError || passwordError || confirmPasswordError) {
-            alert('Please fix the errors before submitting');
-            return;
-        }
-        const profile = {
-            firstName,
-            lastName,
-            email,
-            image,
-            password
-        };
+        // if (emailError || passwordError || confirmPasswordError) {
+        //     alert('Please fix the errors before submitting');
+        //     return;
+        // }
+        // const profile = {
+        //     firstName,
+        //     lastName,
+        //     email,
+        //     image,
+        //     password
+        // };
         try {
             if (isLogin) {
-                console.log(email , password)
                 const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
-                navigate("/books")
+                navigate("/books");
+               
             } else {
-                console.log(firstName , lastName , email , password , image)
                 const response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName } , 
-                                                                                         {headers: { 'Content-Type': 'multipart/form-data' }});
-                navigate("/books")
+                {headers: { 'Content-Type': 'multipart/form-data' }});
+                navigate("/books");
             }
         } catch (error) {
             console.log(error);
             alert(error.response.data.message);
         }
     };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     if (emailError || passwordError || confirmPasswordError) {
+    //         alert('Please fix the errors before submitting');
+    //         return;
+    //     }
+        
+       
+    //     const profile = {
+    //                 firstName,
+    //                 lastName,
+    //                 email,
+    //                 image,
+    //                 password
+    //             };
+    
+    //     try {
+    //         let response;
+    //         if (isLogin) {
+    //             console.log(email, password);
+    //             response = await axios.post('http://localhost:5000/user/login', { email, password }, { withCredentials: true });
+    //         } else {
+    //             console.log(firstName, lastName, email, password, image);
+    //             response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName }, {
+    //                 headers: { 'Content-Type': 'multipart/form-data' },
+    //                 withCredentials: true
+    //             });
+    //         }
+    
+    //         if (response.data) {
+    //             const token = response.data.token;
+    //             Cookies.set('token', token, { expires: 7 });
+    
+    //             const decodedToken = jwt_decode(token);
+    //             console.log(decodedToken);
+    
+    //             navigate("/books");
+    //         } else {
+    //             throw new Error('Unexpected response format');
+    //         }
+    //     } catch (error) {
+    //         // console.log(error);
+    //         const errorMessage = error.response.data.message || error.message;
+    //         alert(errorMessage);
+    //     }
+    // };
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);

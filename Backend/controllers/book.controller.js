@@ -13,7 +13,15 @@ const getAllBooks = wrapAsync(async (req,res)=>{
     .populate({path: "author",select:"_id id firstName lastName"})
     .populate({path: "category",select:"_id id name"})
 
-    res.json({ status: httpStatusText.SUCCESS, data: {books}})
+    res.status(200).json({ status: httpStatusText.SUCCESS, data: {books}})
+ })
+
+const getBook = wrapAsync(async (req,res)=>{
+   const id = req.params.id
+   let book = await Book.findOne({id})
+   .populate({path: "author",select:"_id id firstName lastName"})
+   .populate({path: "category",select:"_id id name"})
+   res.status(200).json({ status: httpStatusText.SUCCESS, data: {book}})
  })
 
 const addBook = wrapAsync(async (req,res,next)=>{
@@ -107,6 +115,7 @@ const getBooksByCategory = async (req, res) => {
     deleteBook,
     getBooksByCategory,
     getBooksByAuthor,
+    getBook,
 }
 
 

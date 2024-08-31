@@ -35,7 +35,7 @@ const createUser= wrapAsync(async (req,res,next)=>{
         })
         console.log("You are logged in")
         res.cookie('token', token, {    
-            httpOnly: true, 
+            httpOnly: false, 
             secure: false, 
             sameSite: 'Lax', 
             maxAge: 86400000
@@ -57,7 +57,7 @@ const getUser = (wrapAsync(async (req,res,next)=>{
     if (!user) {
         return next(new appError('User not found', 404));
     }
-    res.status(200).json({status:httpStatusText.SUCCESS, data: {user}})
+        res.status(200).json({status:httpStatusText.SUCCESS, data: {user}})
     }))
 
 
@@ -67,6 +67,7 @@ const loginUser = wrapAsync(async (req , res , next)=>{
       return next(new appError (errors.array(), 400, httpStatusText.FAIL));
     }
     const {email , password} = req.body;
+    console.log(email, password)
     const userExist = await User.findOne({email: email.toLowerCase()})
     if(!userExist){
         next(new appError("Email doesn't exist" , 404, httpStatusText.FAIL));
@@ -83,7 +84,7 @@ const loginUser = wrapAsync(async (req , res , next)=>{
         role: userExist.role,
     }) 
         res.cookie('token', token, {    
-        httpOnly: true, 
+        httpOnly: false, 
         secure: false, 
         sameSite: 'Lax', 
         maxAge: 86400000
@@ -168,7 +169,7 @@ const getUserBooks = wrapAsync(async(req , res , next)=>{
     let books = [];
     if(!status){
         const bookPromises = user.read.map(async item => {
-            let book = await Book.findById(item.book).populate({path: "author", select:"-_id firstName lastName"}).select('-_id rating name author image');
+            let book = await Book.findById(item.book).populate({path: "author", select:"-_id firstName lastName"}).select('-_id id rating name author image');
             book = book.toObject();
             book.status = item.status;
             book.userRate = item.rating;
@@ -227,6 +228,7 @@ const deleteUserBook = wrapAsync(async(req , res ,next)=>{
     
 
 })
+
 
 module.exports = {
     loginUser,
