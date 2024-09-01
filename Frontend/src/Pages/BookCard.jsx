@@ -149,11 +149,6 @@ function BookCard() {
           </div>
         </div>
 
-        {/* Star Rating Section */}
-        <div className="rating-section">
-          <h3>Rating: {rating}</h3>
-        </div>
-
         {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>

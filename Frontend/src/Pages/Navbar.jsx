@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as jwt_decode from 'jwt-decode';
 import Cookies from "js-cookie";
-import axios from "axios";
 import "../Styles/Navbar.css";
 
 function Navbar() {
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -21,32 +19,6 @@ function Navbar() {
       }
     }
   }, []);
-
-  const handleSearch = async () => {
-    if (searchQuery.trim()) {
-      try {
-        const response = await axios.get(
-          `https://freetestapi.com/api/v1/books?search=${encodeURIComponent(
-            searchQuery
-          )}`
-        );
-        const books = response.data;
-
-        const foundBook = books.find(
-          (book) => book.title.toLowerCase() === searchQuery.toLowerCase()
-        );
-
-        if (foundBook) {
-          navigate(`/books/${foundBook.id}`);
-        } else {
-          alert("No book found with that title.");
-        }
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        alert("Error fetching search results");
-      }
-    }
-  };
 
   const handleLogout = () => {
     // Clear cookies and local storage
@@ -70,15 +42,16 @@ function Navbar() {
         </li>
       </ul>
       <ul className="center-nav">
+        <form action="/search">
         <li className="search-bar">
           <input
             type="text"
             placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            name="searchQuery"
           />
-          <button onClick={handleSearch}>Search</button>
+          <button>Search</button>
         </li>
+        </form>
       </ul>
       <ul className="right-nav">
         {user ? (
