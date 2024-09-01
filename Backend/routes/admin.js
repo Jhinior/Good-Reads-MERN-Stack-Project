@@ -48,7 +48,7 @@ router.patch("/category/:id/edit" , isValidCategReq.addCategoryValidation() , ca
 
 router.delete("/category/:id/delete" , categoryController.deleteCategory)
 
-router.get('/categories/name/:name', verifyToken, categoryController.getCategoryByName)
+router.get('/categories/name/:name', categoryController.getCategoryByName)
 
 router.get('/books/category/:categoryId', bookController.getBooksByCategory)
 
