@@ -149,12 +149,23 @@ const rateUserBook = wrapAsync(async(req , res ,next)=>{
     const currentUser = req.currentUser;
     const user = await User.findById(currentUser.id);
     const bookId = await Book.findOne({name: bookName} , '_id')
+    const book = await Book.findOne({name: bookName})
     user.read.forEach(item => {
         if (item.book.equals(bookId._id)) {
-            item.rating = rating;
+            if (item.rating === 0){
+                book.numsOfRating++
+            }
+            item.rating= rating
+            if(book.rating === 1){
+                book.rating = rating
+            }else{
+            book.rating = ((book.rating * (book.numsOfRating - 1)) + rating) / book.numsOfRating;
+            book.rating = Math.round(book.rating*100)/100
+        }
         }
     });
     try{
+        await book.save();
         await user.save();
         res.status(200).json({status: httpStatusText.SUCCESS, message: "Rating added successfully"})
     }catch(err){

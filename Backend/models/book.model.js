@@ -32,6 +32,11 @@ const bookSchema = new Schema({
         type: Number,
         default: 0
     },
+    numsOfRating: {
+        type: Number,
+        default: 0
+    }
+    ,
     reviews: {
         type: [{
             name:{

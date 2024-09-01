@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Cookies from "js-cookie";
-import StarRating from './StarRating';
-import CommentForm from './Comment';
+import * as jwt_decode from 'jwt-decode';
+import StarRating from './StarRating'; // Import StarRating component
+import CommentForm from './Comment'; // Import CommentForm component
 import '../Styles/BookCard.css';
 
 function BookCard() {
@@ -11,49 +12,106 @@ function BookCard() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [rating, setRating] = useState(0); // Added to track user's rating
   const [comments, setComments] = useState([]);
-  const [rating, setRating] = useState(0); // Added to keep track of user's rating
-  const token = Cookies.get('token');
+  const [wantToReadBooks, setWantToReadBooks] = useState([]);
+  const [currentReadingBooks, setCurrentReadingBooks] = useState([]);
+  const [readBooks, setReadBooks] = useState([]);
+  const [user, setUser] = useState(null);
+  const token = Cookies.get('token'); // Get token from cookies
 
-  useEffect(() => {
-    // Fetch book details, comments, and rating all in one API call
+ const fetchBook=() => {
+    // Fetch all book details, comments, and rating in a single API call
     axios.get(`http://localhost:5000/admin/book/${id}`)
       .then(response => {
-        const fetchedBook = response.data.data.book;
-        setBook(fetchedBook);
-        setComments(fetchedBook.reviews); // Assuming reviews include comments
-        setRating(fetchedBook.rating); // Set initial rating from fetched book
-        setLoading(false);
+        const fetchedData = response.data.data.book;
+        setBook(fetchedData); // Set book details
+        setComments(fetchedData.reviews); // Set comments (assuming reviews include comments)
+        setRating(fetchedData.rating); // Set initial rating
+        setLoading(false); // Update loading state
       })
       .catch(error => {
-        setError(error);
+        setError(error); // Update error state
         setLoading(false);
       });
-  }, [id]);
+  }
+  // const fetchBook = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:5000/admin/book/${id}`, {
+  //       withCredentials: true,
+  //     });
+      
+  //     setBook(response.data.data.book);
+  //     setComments(fetchedData.reviews)
+  //     setRating(fetchedData.rating)
+  //     setLoading(false)
+      
+  //   } catch (error) {
+  //     setError(error); // Update error state
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleRatingSubmit = (ratingValue) => {
+  useEffect(() => {
+    fetchBook();
+  }, []);
+
+
+  const handleAddToCurrentReading = (book) => {
     if (token) {
+      setCurrentReadingBooks((prevBooks) => [...prevBooks, book]);
       axios
-        .patch(`http://localhost:5000/user/userBooks/edit`, { bookId: id, rating: ratingValue }, { withCredentials: true })
-        .then(response => {
-          alert("Rating submitted successfully");
-          setRating(ratingValue); // Update the displayed rating after submission
+        .patch(`http://localhost:5000/user/userBooks/edit`, { bookName: book.name, status: 'reading' }, { withCredentials: true })
+        .then(() => {
+          alert("Book status updated to Currently Reading");
         })
-        .catch(error => {
-          console.error("Error submitting rating", error);
+        .catch((error) => {
+          console.error("Error updating book status", error);
         });
     } else {
-      alert("Please log in to submit a rating.");
+      alert("Please log in first");
     }
   };
 
+  const handleAddToWantToRead = (book) => {
+    if (token) {
+      axios
+        .patch(`http://localhost:5000/user/userBooks/edit`, { bookName: book.name, status: 'want to read' }, { withCredentials: true })
+        .then(() => {
+          alert("Book status updated to Want To Read");
+        })
+        .catch((error) => {
+          console.error("Error updating book status", error);
+        });
+    } else {
+      alert("Please log in first");
+    }
+    setWantToReadBooks((prevBooks) => [...prevBooks, book]);
+  };
+
+  const handleAddToAlreadyRead = (book) => {
+    if (token) {
+      setReadBooks((prevBooks) => [...prevBooks, book]);
+      axios
+        .patch(`http://localhost:5000/user/userBooks/edit`, { bookName: book.name, status: 'read' }, { withCredentials: true })
+        .then(() => {
+          alert("Book status updated to Already Read");
+        })
+        .catch((error) => {
+          console.error("Error updating book status", error);
+        });
+    } else {
+      alert("Please log in first");
+    }
+  };
+
+  // Handle comment submission by logged-in users
   const handleCommentSubmit = (commentText) => {
     if (token) {
       axios
-        .patch(`http://localhost:5000/user/userBooks/comment`, { bookId: id, comment: commentText }, { withCredentials: true })
-        .then(response => {
-          alert("Comment submitted successfully");
-          setComments((prevComments) => [...prevComments, response.data.comment]); // Append new comment to the list
+        .patch(`http://localhost:5000/user/addreview/${id}`, {review: commentText}, { withCredentials: true })
+        .then((response) => {
+          fetchBook()
         })
         .catch(error => {
           console.error("Error submitting comment", error);
@@ -80,16 +138,23 @@ function BookCard() {
           />
           <div className='info-container'>
             <h1>{book.name}</h1>
-            <p>Author: {book.author.firstName + " " + book.author.lastName}</p>
-            <p>Category: {book.category.name}</p>
+            <h3>Rating: {rating}</h3>
+            <h3>Author: {book.author.firstName + " " + book.author.lastName}</h3>
+            <h3>Category: {book.category.name}</h3>
+          </div>
+          <div className='button-container'>
+            <button className="profile-btn" onClick={() => handleAddToWantToRead(book)}>Add to Want to Read</button>
+            <button className="profile-btn" onClick={() => handleAddToCurrentReading(book)}>Add to Current Reading</button>
+            <button className="profile-btn" onClick={() => handleAddToAlreadyRead(book)}>Already Read</button>
           </div>
         </div>
 
+        {/* Star Rating Section */}
         <div className="rating-section">
           <h3>Rating: {rating}</h3>
-          <StarRating rating={rating} onRatingSubmit={handleRatingSubmit} />
         </div>
 
+        {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
           <ul>
@@ -109,7 +174,7 @@ function BookCard() {
           {token && (
             <div>
               <h4>Leave a Comment:</h4>
-              <CommentForm bookId={id} onCommentSubmit={handleCommentSubmit} />
+              <CommentForm onCommentSubmit={handleCommentSubmit} />
             </div>
           )}
         </div>

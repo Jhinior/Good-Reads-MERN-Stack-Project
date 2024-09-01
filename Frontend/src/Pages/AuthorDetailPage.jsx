@@ -45,6 +45,7 @@ function AuthorDetailPage() {
       ) : author ? (
         <>
           <h1 className="my-4">{author.firstName} {author.lastName}</h1>
+          <h3 className="my-4">Date of birth: {author.dob}</h3>
           {author.dateOfBirth && (
             <p className="mb-4">Born: {new Date(author.dateOfBirth).toLocaleDateString()}</p>
           )}

@@ -16,7 +16,6 @@ function Navbar() {
       try {
         const decodedToken = jwt_decode.jwtDecode(token);
         setUser(decodedToken); 
-        console.log(user)
       } catch (error) {
         console.error("Error decoding token:", error);
       }

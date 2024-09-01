@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Styles/index.css'; // Import CSS for styling
+import '../index.css'; // Import CSS for styling
 
 function StarRating({ onRatingSubmit }) {
   const [rating, setRating] = useState(0);

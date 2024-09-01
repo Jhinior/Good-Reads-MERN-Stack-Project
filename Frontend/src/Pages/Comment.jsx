@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-function CommentForm({ bookId, onCommentSubmit }) {
+function CommentForm({onCommentSubmit }) {
   const [comment, setComment] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (comment) {
-      onCommentSubmit(bookId, comment); // Submit the comment
-      setComment('');
+    // Ensure comment is treated as a string
+    const commentText = String(comment).trim(); // Convert to string and trim whitespace
+    if (commentText) {
+      onCommentSubmit(commentText); // Submit the comment
+      setComment(''); // Clear input field
     }
   };
 

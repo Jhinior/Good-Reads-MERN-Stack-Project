@@ -58,10 +58,17 @@ const editBook = wrapAsync(async (req,res,next)=>{
     if (!book) {
         return next(new appError('Book not found', 404));
     }
+    if(req.body.reviews){
+        book.reviews = req.body.reviews
+        res.status(201).json({status: httpStatusText.SUCCESS, data: {book}})
+    }
+
     Object.assign(book, req.body);
+
     if(req.file){
         book.image = req.file.filename
     }
+    console.log(req.body)
     await book.save()
     .then(()=>{
         res.status(201).json({status: httpStatusText.SUCCESS, data: {book}}) 
