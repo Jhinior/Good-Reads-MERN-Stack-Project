@@ -42,8 +42,8 @@ function BooksList() {
               />
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title text-truncate">{book.name}</h5>
-                <p className="card-text"><strong>Category:</strong> {book.category.name}</p>
-                <p className="card-text"><strong>Author:</strong> {book.author.firstName}</p>
+                <p className="card-text"><strong>Category:</strong> {book.category && book.category.name ? book.category.name : "N/A"}</p>
+                <p className="card-text"><strong>Author:</strong> {book.author && book.author.firstName ? book.author.firstName + " " + book.author.lastName : "N/A"}</p>
                 <a href={`/books/${book.id}`} className="btn btn-primary mt-auto">View Details</a>
               </div>
             </div>

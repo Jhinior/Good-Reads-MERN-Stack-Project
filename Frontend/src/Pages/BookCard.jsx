@@ -134,19 +134,19 @@ function BookCard() {
         </div>
 
         <div className="comments-section">
-          <h3>Comments</h3>
-          <ul>
-            {comments.map((comment, index) => (
-              <li key={index}>
-                <div>
-                  <h5>{comment.name}</h5>
-                  <h5>{comment.email}</h5>
-                  <p>{comment.review}</p>
-                  <h6>Posted at: {comment.date}</h6>
-                </div>
-              </li>
-            ))}
-          </ul>
+         <h3 className="comments-title">Comments</h3>
+            <ul className="comments-list">
+              {comments.map((comment, index) => (
+                <li key={index} className="comment-item">
+                  <div className="comment-content">
+                    <h5 className="comment-name">{comment.name}</h5>
+                    <h5 className="comment-email">{comment.email}</h5>
+                    <p className="comment-text">{comment.review}</p>
+                    <h6 className="comment-date">Posted at: {comment.date}</h6>
+                  </div>
+                </li>
+              ))}
+            </ul>
 
           {token && (
             <div>
