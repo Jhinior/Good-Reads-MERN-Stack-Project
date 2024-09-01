@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import EditAuthorModal from './EditAuthorModal'; // Import EditAuthorModal
+import EditAuthorModal from './EditAuthorModal'; 
 import '../Styles/AdminAuthors.css'
 
 const AuthorsPage = () => {
@@ -28,8 +28,9 @@ const AuthorsPage = () => {
     fetchAuthors();
   }, []);
 
+ 
   const handleDelete = async (authorId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this author?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this author and all associated books?");
     if (confirmDelete) {
       try {
         await axios.delete(`http://localhost:5000/admin/author/${authorId}/delete`);
@@ -40,34 +41,39 @@ const AuthorsPage = () => {
     }
   };
 
+  const formatDateToMDY = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${month}/${day}/${year}`;
+  };
+
   const handleAddAuthor = async (e) => {
     e.preventDefault();
-    
-    if (!newAuthor.image) {
-      alert('Please upload a image for the author.');
-      return; 
+  
+    if (!newAuthor.firstName || !newAuthor.lastName || !newAuthor.image) {
+      alert('Please provide all required fields.');
+      return;
     }
-
+  
     const formData = new FormData();
     formData.append('firstName', newAuthor.firstName);
     formData.append('lastName', newAuthor.lastName);
+    newAuthor.dob = formatDateToMDY(newAuthor.dob)
     formData.append('dob', newAuthor.dob);
-    formData.append('image', newAuthor.image); 
-    print(dob)
-
+    formData.append('image', newAuthor.image);
+  
     try {
       const response = await axios.post('http://localhost:5000/admin/author/add', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
-          
       });
       if (response.data.status === 'success') {
-        fetchAuthors();
+        fetchAuthors(); 
         setNewAuthor({ firstName: '', lastName: '', dob: '', image: null });
         setIsAddAuthorModalOpen(false);
       }
     } catch (error) {
-      alert(error.response.data.message);
+      console.error('Failed to add author:', error); 
+      alert('Failed to add author: ' + (error.response?.data?.message || 'Unknown error'));
     }
   };
 
@@ -139,6 +145,7 @@ const AuthorsPage = () => {
                 onChange={(e) => setNewAuthor({ ...newAuthor, firstName: e.target.value })}
                 required
               />
+
               <label htmlFor="lastName">Last Name</label>
               <input
                 type="text"
@@ -147,14 +154,17 @@ const AuthorsPage = () => {
                 onChange={(e) => setNewAuthor({ ...newAuthor, lastName: e.target.value })}
                 required
               />
+
               <label htmlFor="dob">Birth Date</label>
               <input
                 type="date"
                 id="dob"
                 value={newAuthor.dob}
-                onChange={(e) => setNewAuthor({ ...newAuthor, dob: e.target.value})}
+                onChange={(e) => setNewAuthor({ ...newAuthor, dob: e.target.value })}
+               requir ed
               />
-              <label htmlFor="image">image</label>
+
+              <label htmlFor="image">Image</label>
               <input
                 type="file"
                 id="image"

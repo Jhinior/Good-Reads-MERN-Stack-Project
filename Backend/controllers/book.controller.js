@@ -68,7 +68,6 @@ const editBook = wrapAsync(async (req,res,next)=>{
     if(req.file){
         book.image = req.file.filename
     }
-    console.log(req.body)
     await book.save()
     .then(()=>{
         res.status(201).json({status: httpStatusText.SUCCESS, data: {book}}) 

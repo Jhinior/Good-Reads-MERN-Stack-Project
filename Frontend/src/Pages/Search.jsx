@@ -27,7 +27,6 @@ function SearchResults() {
         setLoading(true);
         setError("");
         try {
-          // Fetch all the data concurrently
           const [responseBooks, responseCategory, responseAuthor] =
             await Promise.all([
               axios.get("http://localhost:5000/admin/book", {
@@ -41,12 +40,10 @@ function SearchResults() {
               }),
             ]);
 
-          // Extract the data from the responses
           const fetchedBooks = responseBooks.data.data.books;
           const fetchedAuthors = responseAuthor.data.data.authors;
           const fetchedCategories = responseCategory.data.data.categories;
 
-          // Perform filtering before setting state
           const filteredBooks = fetchedBooks.filter((book) =>
             book.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
@@ -61,7 +58,6 @@ function SearchResults() {
             category.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
 
-          // Update state
           setBooks(fetchedBooks);
           setAuthors(fetchedAuthors);
           setCategories(fetchedCategories);
@@ -69,7 +65,7 @@ function SearchResults() {
           setAuthorResults(filteredAuthors);
           setCategoryResults(filteredCategories);
         } catch (err) {
-          console.error("Error fetching data:", err); // Debugging
+          console.error("Error fetching data:", err);
           setError("Error fetching search results");
         } finally {
           setLoading(false);
@@ -169,21 +165,6 @@ function SearchResults() {
       </div>
       <hr></hr>
       <h3>Categoreis search results:</h3>
-
-      {/* <div className="search-category">
-        {categoryResults.map(category => (
-          <div className="#" key={category._id}>
-            <div className="#">
-              <div className="#">
-                <h5 className="card-title">{category.name}</h5>
-                <Link to={`/category/${category.name}`} className="btn btn-primary mt-auto">
-                  View Books
-                </Link>
-              </div>
-            </div>
-          </div>
-        ))}
-        </div> */}
       <div className="search-category">
         {categoryResults.length > 0 ? (
           categoryResults.map((category) => (

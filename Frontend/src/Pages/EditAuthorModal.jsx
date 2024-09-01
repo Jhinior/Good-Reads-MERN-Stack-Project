@@ -8,15 +8,22 @@ const EditAuthorModal = ({ author, onClose, onUpdate }) => {
   const [photo, setPhoto] = useState(null);
   const [error, setError] = useState('');
 
+  const formatDateToMDY = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${month}/${day}/${year}`;
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
+    
     
     const formData = new FormData();
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
-    formData.append('dob', birthDate);
+    const dob = (formatDateToMDY(birthDate))
+    formData.append('dob', dob);
     if (photo) {
-      formData.append('photo', photo);
+      formData.append('image', photo);
     }
     
     try {

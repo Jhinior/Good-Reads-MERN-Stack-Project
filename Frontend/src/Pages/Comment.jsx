@@ -5,11 +5,10 @@ function CommentForm({onCommentSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Ensure comment is treated as a string
-    const commentText = String(comment).trim(); // Convert to string and trim whitespace
+    const commentText = String(comment).trim(); 
     if (commentText) {
-      onCommentSubmit(commentText); // Submit the comment
-      setComment(''); // Clear input field
+      onCommentSubmit(commentText); 
+      setComment('');
     }
   };
 

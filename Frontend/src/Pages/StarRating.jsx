@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import '../index.css'; // Import CSS for styling
+import '../index.css'; 
 
 function StarRating({ onRatingSubmit }) {
   const [rating, setRating] = useState(0);
 
   const handleClick = (value) => {
     setRating(value);
-    onRatingSubmit(value); // Submit the rating
+    onRatingSubmit(value);
   };
 
   return (

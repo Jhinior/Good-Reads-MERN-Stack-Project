@@ -43,6 +43,9 @@ const editAuthor = wrapAsync(async (req,res,next)=>{
         return next(new appError('Author not found', 404));
     }
     Object.assign(author, req.body);
+    if(req.file){
+        author.image = req.file.filename
+    }
     await author.save()
     res.status(201).json({status: httpStatusText.SUCCESS, data: {author}})
 })

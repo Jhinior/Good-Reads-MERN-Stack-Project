@@ -21,10 +21,8 @@ function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // Clear cookies and local storage
     Cookies.remove("token");
     localStorage.removeItem("token");
-    // Redirect to login page
     navigate("/login");
   };
 

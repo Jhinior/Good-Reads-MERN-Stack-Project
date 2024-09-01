@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../Styles/AdminBooks.css';
 import { Link } from 'react-router-dom';
-import EditBookModal from './EditBookModal'; // Import EditBookModal if needed
+import EditBookModal from './EditBookModal'; 
 
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
@@ -10,9 +10,8 @@ const BooksPage = () => {
   const [categories, setCategories] = useState([]);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const [newBook, setNewBook] = useState({ name: '', author: '', category: '', image: null });
-  const [isEditBookModalOpen, setIsEditBookModalOpen] = useState(false); // For editing book
-  const [selectedBook, setSelectedBook] = useState(null); // For selected book
-
+  const [isEditBookModalOpen, setIsEditBookModalOpen] = useState(false); 
+  const [selectedBook, setSelectedBook] = useState(null); 
   const fetchBooks = async () => {
     try {
       const response = await axios.get('http://localhost:5000/admin/book', {
@@ -149,7 +148,6 @@ const BooksPage = () => {
                 required
               />
               <label htmlFor="bookAuthor">Author</label>
-              {/* Dropdown menu for authors */}
               <select
                 id="bookAuthor"
                 value={newBook.author}
@@ -164,7 +162,6 @@ const BooksPage = () => {
                 ))}
               </select>
               <label htmlFor="bookCategory">Category</label>
-              {/* Dropdown menu for categories */}
               <select
                 id="bookCategory"
                 value={newBook.category}
@@ -179,7 +176,6 @@ const BooksPage = () => {
                 ))}
               </select>
               <label htmlFor="bookImage">Book Image</label>
-              {/* Image upload input */}
               <input
                 type="file"
                 id="bookImage"

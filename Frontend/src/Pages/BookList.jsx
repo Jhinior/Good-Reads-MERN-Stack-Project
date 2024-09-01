@@ -8,7 +8,6 @@ function BooksList() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    // Fetch books from the backend API
     axios.get('http://localhost:5000/admin/book')
       .then(response => {
         console.log(response.data.data.books)
@@ -45,7 +44,6 @@ function BooksList() {
                 <h5 className="card-title text-truncate">{book.name}</h5>
                 <p className="card-text"><strong>Category:</strong> {book.category.name}</p>
                 <p className="card-text"><strong>Author:</strong> {book.author.firstName}</p>
-                {/* <p className="card-text"><strong>Average Rating:</strong> {book.rating}</p> */}
                 <a href={`/books/${book.id}`} className="btn btn-primary mt-auto">View Details</a>
               </div>
             </div>

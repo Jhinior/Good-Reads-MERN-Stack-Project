@@ -58,7 +58,6 @@ const Profile = () => {
   fetchUserBooks();
 }, []);
 
-  // Submit book status to the server
   const handleAddToCurrentReading = (book) => {
     setCurrentReadingBooks((prevBooks) => [...prevBooks, book]);
 
@@ -114,7 +113,6 @@ const Profile = () => {
   };
 
 
-  // StarRating Component
 function StarRating({ rating, book, onRatingSubmit }) {
   const [currentRating, setCurrentRating] = useState(rating);
 
@@ -241,7 +239,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
         </div>
       </div>
 
-      {/* Want to Read Popup */}
       <div id="popup1" className="popup">
         <h2 className="popup-header">Want to Read</h2>
         <a href="#" className="close-btn">
@@ -308,7 +305,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
         </div>
       </div>
 
-      {/* Current Reading Popup */}
       <div id="popup2" className="popup">
         <h2 className="popup-header">Currently Reading</h2>
           <a href="#" className="close-btn">
@@ -335,19 +331,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 <p>Rating: {book.userRate}</p>
                 <div className="rating-section">
                   <StarRating rating={book.userRate} book={book} />
-                  {/* <textarea
-                    value={newComments[book.id] || ""}
-                    onChange={(e) => handleCommentChange(book.id, e.target.value)}
-                    placeholder="Add a comment"
-                  /> */}
-                  {/* <button
-                    className="profile-btn"
-                    onClick={() => handleAddComment(book.id)}
-                    disabled={loading}
-                  >
-                    <RiCheckboxCircleLine size={24} />
-                    {loading ? "Submitting..." : "Submit"}
-                  </button> */}
                   <button
                     className="profile-btn"
                     onClick={() => handleAddToWantToRead(book)}
@@ -389,7 +372,6 @@ function StarRating({ rating, book, onRatingSubmit }) {
         </div>
       </div>
 
-      {/* Already Read Popup */}
       <div id="popup3" className="popup">
         <h2 className="popup-header">Already Read</h2>
          <a href="#" className="close-btn">
@@ -417,19 +399,7 @@ function StarRating({ rating, book, onRatingSubmit }) {
                 <p>Rating: {book.userRate}</p>
                 <div className="rating-section">
                   <StarRating rating={book.userRate} book={book} />
-                  {/* <textarea
-                    value={newComments[book.id] || ""}
-                    onChange={(e) => handleCommentChange(book.id, e.target.value)}
-                    placeholder="Add a comment"
-                  /> */}
-                  {/* <button
-                    className="profile-btn"
-                    onClick={() => handleAddComment(book.id)}
-                    disabled={loading}
-                  >
-                    <RiCheckboxCircleLine size={24} />
-                    {loading ? "Submitting..." : "Submit"}
-                  </button> */}
+                
                   <button
                     className="profile-btn"
                     onClick={() => handleAddToWantToRead(book)}

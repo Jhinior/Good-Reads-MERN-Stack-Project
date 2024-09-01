@@ -11,7 +11,6 @@ const EditBookModal = ({ book, onClose, onUpdate }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch authors and categories for dropdown options
     const fetchOptions = async () => {
       try {
         const [authorsResponse, categoriesResponse] = await Promise.all([

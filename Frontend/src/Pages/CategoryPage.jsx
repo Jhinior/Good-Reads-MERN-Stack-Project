@@ -5,20 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/CategoryPage.css';
 
 function CategoryPage() {
-  const { id: categoryName } = useParams(); // Get the category name from URL
+  const { id: categoryName } = useParams(); 
   const [category, setCategory] = useState(null);
   const [books, setBooks] = useState([]);
-  const [error, setError] = useState(null); // State for handling errors
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     const fetchCategoryAndBooks = async () => {
       try {
-        // Fetch category details based on name
         const categoryResponse = await axios.get(`http://localhost:5000/admin/categories/name/${categoryName}`,  { withCredentials: true });
         const categoryData = categoryResponse.data.data.category;
         setCategory(categoryData);
 
-        // Fetch books for the fetched category
         if (categoryData._id) {     
           const booksResponse = await axios.get(`http://localhost:5000/admin/books/category/${categoryData._id}`,  { withCredentials: true });
           setBooks(booksResponse.data.data.books);   
@@ -26,7 +24,6 @@ function CategoryPage() {
           setError('Category ID not found');
         }
       } catch (error) {
-        // Handle errors
         console.error('There was an error fetching the data!', error);
         setError('Error fetching category or books');
       }

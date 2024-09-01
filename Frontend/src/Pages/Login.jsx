@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../Styles/Login.css'; 
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing icons
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import * as jwt_decode from 'jwt-decode';
@@ -79,17 +79,6 @@ function Login({ setProfile }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if (emailError || passwordError || confirmPasswordError) {
-        //     alert('Please fix the errors before submitting');
-        //     return;
-        // }
-        // const profile = {
-        //     firstName,
-        //     lastName,
-        //     email,
-        //     image,
-        //     password
-        // };
         try {
             if (isLogin) {
                 const response = await axios.post('http://localhost:5000/user/login', { email, password } ,   {withCredentials: true});
@@ -105,53 +94,6 @@ function Login({ setProfile }) {
             alert(error.response.data.message);
         }
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (emailError || passwordError || confirmPasswordError) {
-    //         alert('Please fix the errors before submitting');
-    //         return;
-    //     }
-        
-       
-    //     const profile = {
-    //                 firstName,
-    //                 lastName,
-    //                 email,
-    //                 image,
-    //                 password
-    //             };
-    
-    //     try {
-    //         let response;
-    //         if (isLogin) {
-    //             console.log(email, password);
-    //             response = await axios.post('http://localhost:5000/user/login', { email, password }, { withCredentials: true });
-    //         } else {
-    //             console.log(firstName, lastName, email, password, image);
-    //             response = await axios.post('http://localhost:5000/user/register', { email, password, image, firstName, lastName }, {
-    //                 headers: { 'Content-Type': 'multipart/form-data' },
-    //                 withCredentials: true
-    //             });
-    //         }
-    
-    //         if (response.data) {
-    //             const token = response.data.token;
-    //             Cookies.set('token', token, { expires: 7 });
-    
-    //             const decodedToken = jwt_decode(token);
-    //             console.log(decodedToken);
-    
-    //             navigate("/books");
-    //         } else {
-    //             throw new Error('Unexpected response format');
-    //         }
-    //     } catch (error) {
-    //         // console.log(error);
-    //         const errorMessage = error.response.data.message || error.message;
-    //         alert(errorMessage);
-    //     }
-    // };
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -178,21 +120,7 @@ function Login({ setProfile }) {
                             <div className="form-group-unique">
                                 <label>Profile Picture:</label>
                                 <input type="file" onChange={handleProfilePictureChange} />
-                                {/* {image && <img src={image} alt="Profile" className="preview-img-unique" />} */}
                             </div>
-                            {/* <div className="form-group-unique">
-                                <label>Birth Date:</label>
-                                <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
-                            </div>
-                            <div className="form-group-unique">
-                                <label>Gender:</label>
-                                <select value={gender} onChange={(e) => setGender(e.target.value)} required>
-                                    <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div> */}
                         </>
                     )}
                     <div className="form-group-unique">

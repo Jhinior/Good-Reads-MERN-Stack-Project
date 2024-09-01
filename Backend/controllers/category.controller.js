@@ -6,6 +6,7 @@ const appError = require("../utils/appError");
 const httpStatusText = require("../utils/httpStatusText");
 const { validationResult } = require("express-validator");
 const wordTransform = require("../utils/wordTransform");
+const Book = require("../models/book.model");
 
 
 const getCategory =   wrapAsync(async (req, res, next) => {
@@ -58,6 +59,7 @@ const updateCategory = wrapAsync(async (req , res , next)=>{
 
 const deleteCategory = wrapAsync(async(req , res , next)=>{
   const categoryId = +req.params.id;
+  
   try{
      const ifDeleted = await Category.findOneAndDelete({id: categoryId});
      
@@ -73,7 +75,6 @@ const getCategoryByName = async (req, res, next) => {
   const { name } = req.params;
 
   try {
-    // Use case-insensitive matching to find the category by name
     const category = await Category.findOne({ name: new RegExp(name, 'i') });
 
     if (!category) {

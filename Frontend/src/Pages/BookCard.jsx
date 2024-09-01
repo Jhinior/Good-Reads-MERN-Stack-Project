@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Cookies from "js-cookie";
 import * as jwt_decode from 'jwt-decode';
-import StarRating from './StarRating'; // Import StarRating component
-import CommentForm from './Comment'; // Import CommentForm component
+import StarRating from './StarRating'; 
+import CommentForm from './Comment';
 import '../Styles/BookCard.css';
 
 function BookCard() {
@@ -12,45 +12,30 @@ function BookCard() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [rating, setRating] = useState(0); // Added to track user's rating
+  const [rating, setRating] = useState(0); 
   const [comments, setComments] = useState([]);
   const [wantToReadBooks, setWantToReadBooks] = useState([]);
   const [currentReadingBooks, setCurrentReadingBooks] = useState([]);
   const [readBooks, setReadBooks] = useState([]);
   const [user, setUser] = useState(null);
-  const token = Cookies.get('token'); // Get token from cookies
+  const token = Cookies.get('token');
 
  const fetchBook=() => {
-    // Fetch all book details, comments, and rating in a single API call
+   
     axios.get(`http://localhost:5000/admin/book/${id}`)
       .then(response => {
         const fetchedData = response.data.data.book;
-        setBook(fetchedData); // Set book details
-        setComments(fetchedData.reviews); // Set comments (assuming reviews include comments)
-        setRating(fetchedData.rating); // Set initial rating
-        setLoading(false); // Update loading state
+        setBook(fetchedData); 
+        setComments(fetchedData.reviews); 
+        setRating(fetchedData.rating); 
+        setLoading(false); 
       })
       .catch(error => {
-        setError(error); // Update error state
+        setError(error);
         setLoading(false);
       });
   }
-  // const fetchBook = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:5000/admin/book/${id}`, {
-  //       withCredentials: true,
-  //     });
-      
-  //     setBook(response.data.data.book);
-  //     setComments(fetchedData.reviews)
-  //     setRating(fetchedData.rating)
-  //     setLoading(false)
-      
-  //   } catch (error) {
-  //     setError(error); // Update error state
-  //     setLoading(false);
-  //   }
-  // };
+
 
   useEffect(() => {
     fetchBook();
@@ -105,7 +90,6 @@ function BookCard() {
     }
   };
 
-  // Handle comment submission by logged-in users
   const handleCommentSubmit = (commentText) => {
     if (token) {
       axios
@@ -149,7 +133,6 @@ function BookCard() {
           </div>
         </div>
 
-        {/* Comments Section */}
         <div className="comments-section">
           <h3>Comments</h3>
           <ul>
@@ -165,7 +148,6 @@ function BookCard() {
             ))}
           </ul>
 
-          {/* Only logged-in users can submit a comment */}
           {token && (
             <div>
               <h4>Leave a Comment:</h4>

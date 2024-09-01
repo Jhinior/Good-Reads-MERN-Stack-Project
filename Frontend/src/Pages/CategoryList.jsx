@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Styles/CategoryList.css'; // Import the custom CSS
+import '../Styles/CategoryList.css'; 
 
 function CategoryList() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Fetch categories from the backend API
     axios.get('http://localhost:5000/admin/category' ,  { withCredentials: true })
       .then(response => {
         setCategories(response.data.data.categories);
